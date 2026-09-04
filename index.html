@@ -1,51 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Training Log — Optimized</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Log</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#15171A; --surface:#1C1F22; --surface-2:#23262A; --border:#31353A;
-    --border-soft:#2A2D31; --text:#ECEDEE; --text-muted:#9AA0A6; --text-faint:#5E6469;
-    --accent:#F2C14E; --accent-soft:#3A331E; --success:#7CB88F; --success-soft:#1E2A22;
+    --bg:#15171A;
+    --surface:#1C1F22;
+    --surface-2:#23262A;
+    --border:#31353A;
+    --border-soft:#2A2D31;
+    --text:#ECEDEE;
+    --text-muted:#9AA0A6;
+    --text-faint:#5E6469;
+    --accent:#F2C14E;
+    --accent-soft:#3A331E;
+    --success:#7CB88F;
+    --success-soft:#1E2A22;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
-  #app{max-width:980px;margin:0 auto;padding:0 16px 60px;}
-  header{padding:20px 0 10px;border-bottom:1px solid var(--border)}
-  h1{font-family:'Oswald',sans-serif;font-size:26px;margin:0 0 10px}
-  .control-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .field{display:flex;align-items:center;gap:8px}
-  .field label{font-size:12px;color:var(--text-muted)}
-  input[type=date],input[type=number],select{background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:4px;font-size:13px}
-  input[type=number]{width:64px}
-  button.ghost{background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:6px 12px;border-radius:4px;cursor:pointer}
-  button.ghost:hover{color:var(--text)}
-  .progress-badge{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-muted);border:1px solid var(--border-soft);padding:6px 10px;border-radius:4px}
-  .block-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);background:var(--accent-soft);padding:5px 10px;border-radius:4px}
-  nav#dayTabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);background:var(--surface);padding:6px 0}
-  .tab{flex:0 0 auto;padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;font-family:'Oswald',sans-serif;font-size:14px;color:var(--text-muted);white-space:nowrap}
-  .tab.active{color:var(--text);border-color:var(--accent)}
-  main#dayContent{padding:18px 0}
-  .exercise{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid var(--border-soft);padding:12px;border-radius:8px;margin-bottom:12px}
-  .exercise .title{display:flex;gap:8px;align-items:center;margin-bottom:10px}
-  .exercise .title h3{margin:0;font-family:'Oswald',sans-serif;font-size:14px}
-  .set-list{display:grid;grid-template-columns:40px 1fr 80px 80px;gap:8px;align-items:center}
-  .set-row{display:contents}
-  .set-row input{background:transparent;border:1px solid var(--border);padding:6px;border-radius:4px;color:var(--text);font-family:'JetBrains Mono',monospace}
-  .set-row .reps{width:64px}
-  .set-row .weight{width:70px}
-  .set-controls{display:flex;gap:6px}
-  .history-controls{display:flex;gap:12px;align-items:center;margin:12px 0}
-  .history-panel{border-top:1px solid var(--border);padding-top:12px}
-  .history-empty{color:var(--text-faint);padding:20px 0;text-align:center}
-  table.history-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12px}
-  table.history-table th, table.history-table td{border-bottom:1px solid var(--border-soft);padding:8px;text-align:left;white-space:nowrap}
-  table.history-table th{color:var(--text-faint);font-size:11px}
-  @media(max-width:640px){ .set-list{grid-template-columns:30px 1fr 70px 60px} }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:920px;margin:0 auto;padding:0 0 60px;}
+
+  /* Header */
+  header{
+    padding:24px 20px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0 0 16px;
+    letter-spacing:.01em;
+  }
+  .control-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .field{display:flex;align-items:center;gap:8px;}
+  .field label{font-size:12px;color:var(--text-muted);}
+  input[type=date], input[type=number]{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:3px;
+  }
+  input[type=number]{width:56px;}
+  button.ghost{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:3px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  button.ghost:hover{border-color:var(--text-muted);color:var(--text);}
+  .progress-badge{
+    margin-left:auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-muted);
+    border:1px solid var(--border-soft);
+    padding:5px 10px;
+    border-radius:3px;
+  }
+  .progress-badge.full{color:var(--success);border-color:var(--success-soft);}
+  .block-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:4px 9px;
+    border-radius:3px;
+  }
+
+  /* Tabs */
+  nav#dayTabs{
+    display:flex;
+    overflow-x:auto;
+    border-bottom:1px solid var(--border);
+    background:var(--surface);
+  }
+  .tab{
+    flex:0 0 auto;
+    padding:14px 18px 12px;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    font-family:'Oswald',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+  .tab .sub{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    font-weight:400;
+    color:var(--text-faint);
+    margin-top:2px;
+  }
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab.rest{opacity:.55;}
+
+  main#dayContent{padding:20px;}
+
+  .day-heading{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .day-heading h2{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:20px;
+    margin:0;
+  }
+  .day-heading .focus{
+    font-size:12px;
+    color:var(--text-muted);
+  }
+
+  .rest-message{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--text-faint);
+    font-family:'Oswald',sans-serif;
+    font-size:15px;
+    letter-spacing:.03em;
+    border:1px dashed var(--border);
+  }
+
+  /* Exercise row */
+  .exercise{
+    border-top:1px solid var(--border-soft);
+    padding:16px 0;
+  }
+  .exercise:last-child{border-bottom:1px solid var(--border-soft);}
+  .ex-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    cursor:pointer;
+  }
+  .ex-name{
+    font-size:15px;
+    font-weight:600;
+    margin:0 0 3px;
+  }
+  .ex-target{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-muted);
+  }
+  .ex-target .rpe{color:var(--accent);}
+  .ex-toggle{
+    font-size:11px;
+    color:var(--text-faint);
+    white-space:nowrap;
+    padding-top:3px;
+  }
+
+  .ex-details{
+    display:none;
+    margin-top:12px;
+    padding:12px 14px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:3px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    line-height:1.55;
+  }
+  .ex-details.open{display:block;}
+  .ex-details .row{margin-bottom:6px;}
+  .ex-details .row:last-child{margin-bottom:0;}
+  .ex-details b{color:var(--text);font-weight:600;}
+
+  .sets{
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .set-row{
+    display:grid;
+    grid-template-columns:56px 1fr 1fr 90px;
+    gap:8px;
+    align-items:center;
+  }
+  .set-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .set-row input{
+    width:100%;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    padding:7px 8px;
+    border-radius:3px;
+  }
+  .set-row input::placeholder{color:var(--text-faint);}
+  .set-row input:focus{outline:none;border-color:var(--accent);}
+  .set-row input.logged{border-color:var(--success-soft);background:var(--success-soft);}
+  .set-hint{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    text-align:right;
+  }
+  .set-hint .up{color:var(--success);}
+
+  .field-labels{
+    display:grid;
+    grid-template-columns:56px 1fr 1fr 90px;
+    gap:8px;
+    margin-bottom:2px;
+  }
+  .field-labels span{
+    font-size:10px;
+    color:var(--text-faint);
+  }
+
+  .variant-label{
+    font-size:10px;
+    color:var(--text-faint);
+    margin:12px 0 6px;
+  }
+  .variant-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:4px;
+  }
+  .variant-chip{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    font-family:'Inter',sans-serif;
+    font-size:11.5px;
+    padding:6px 11px;
+    border-radius:14px;
+    cursor:pointer;
+    line-height:1.3;
+  }
+  .variant-chip:hover{color:var(--text);}
+  .variant-chip.active{
+    border-color:var(--accent);
+    color:var(--accent);
+    background:var(--accent-soft);
+  }
+  .sub-flag{
+    color:var(--text-faint);
+    font-weight:400;
+    font-size:11px;
+  }
+
+  .add-set-btn{
+    margin-top:10px;
+    background:transparent;
+    border:1px dashed var(--border);
+    color:var(--text-muted);
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .add-set-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .remove-set-btn{
+    background:transparent;
+    border:none;
+    color:var(--text-faint);
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    text-decoration:underline;
+    cursor:pointer;
+    text-align:right;
+    padding:0;
+  }
+  .remove-set-btn:hover{color:var(--text-muted);}
+
+  /* History view */
+  #historyView{padding:20px;}
+  .history-controls{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+  }
+  select{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:3px;
+  }
+  .history-empty{
+    color:var(--text-faint);
+    font-size:13px;
+    padding:30px 0;
+    text-align:center;
+  }
+  .history-group-title{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--text);
+    margin:26px 0 12px;
+  }
+  .history-group-title:first-child{margin-top:0;}
+  .history-chart{
+    width:100%;
+    overflow-x:auto;
+    margin-bottom:22px;
+  }
+  .history-chart svg{display:block;}
+  .history-chart .line{fill:none;stroke:var(--accent);stroke-width:2;}
+  .history-chart .point{fill:var(--accent);}
+  .history-chart .axis-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    fill:var(--text-faint);
+  }
+  .history-chart .value-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    fill:var(--text-muted);
+  }
+  table.history-table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+  }
+  table.history-table th, table.history-table td{
+    border-bottom:1px solid var(--border-soft);
+    padding:7px 10px;
+    text-align:left;
+    white-space:nowrap;
+  }
+  table.history-table th{
+    color:var(--text-faint);
+    font-weight:500;
+    font-size:10.5px;
+    font-family:'Inter',sans-serif;
+  }
+  table.history-table td.variant-note{
+    color:var(--text-faint);
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+  }
+
+  @media (max-width:520px){
+    h1{font-size:22px;}
+    .set-row{grid-template-columns:40px 1fr 1fr 70px;}
+    .field-labels{grid-template-columns:40px 1fr 1fr 70px;}
+  }
 </style>
 </head>
 <body>
@@ -55,609 +392,641 @@
     <div class="control-row">
       <div class="field">
         <label for="weekInput">Week</label>
-        <input id="weekInput" type="number" min="1" max="12" value="1" />
+        <input type="number" id="weekInput" min="1" max="12" value="1">
       </div>
       <span class="block-tag" id="blockTag">Block A · Weeks 1-5</span>
       <div class="field">
         <label for="dateInput">Session date</label>
-        <input id="dateInput" type="date" />
+        <input type="date" id="dateInput">
       </div>
       <button class="ghost" id="todayBtn">Today</button>
       <button class="ghost" id="historyToggleBtn">History</button>
+    </div>
+    <div class="control-row">
       <span class="progress-badge" id="progressBadge">0 / 0 logged</span>
     </div>
   </header>
 
-  <nav id="dayTabs" aria-label="Days"></nav>
+  <nav id="dayTabs"></nav>
+  <main id="dayContent"></main>
 
-  <main id="dayContent" role="main"></main>
-
-  <section id="historyView" style="display:none">
+  <section id="historyView" style="display:none;">
     <div class="history-controls">
-      <div class="field"><label for="histBlockSelect">Block</label><select id="histBlockSelect"></select></div>
-      <div class="field"><label for="histDaySelect">Day</label><select id="histDaySelect"></select></div>
-      <button class="ghost" id="histLoadBtn">Load</button>
+      <div class="field">
+        <label for="histBlockSelect">Block</label>
+        <select id="histBlockSelect"></select>
+      </div>
+      <div class="field">
+        <label for="histDaySelect">Day</label>
+        <select id="histDaySelect"></select>
+      </div>
+      <div class="field">
+        <label for="histExerciseSelect">Exercise</label>
+        <select id="histExerciseSelect"></select>
+      </div>
     </div>
-    <div class="history-panel" id="historyPanel"></div>
+    <div id="historyContent"></div>
   </section>
 </div>
 
 <script>
-/*
-  Training Log — Optimized single-file
-  Key optimizations:
-   - Robust async storage wrapper with localStorage fallback
-   - Debounced autosave
-   - Normalize session data shape
-   - Parallel session loading for history
-   - Batched DOM updates with DocumentFragment
-   - Event delegation for input handling
-*/
+const BLOCKS = [
+  {
+    id:'A', label:'Weeks 1-5',
+    days:[
+      {id:'upper', name:'Upper', focus:'Strength focus', rest:false, exercises:[
+        {n:'45° Incline Barbell Press', t:'Failure', w:'2-3', s:3, r:'6-8', e:'~8-9', l:'10', rest:'3-5 min', s1:'45° Incline DB Press', s2:'45° Incline Machine Press', note:'1 second pause at the bottom of each rep while maintaining tension on the pecs.'},
+        {n:'Cable Crossover Ladder', t:'Failure', w:'1-2', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Pec Deck', s2:'Bottom-Half DB Flye', note:'Do one set with low cable position, one with medium, one with high. If you only have one or two sets, choose the position(s) you prefer.'},
+        {n:'Wide-Grip Pull-Up', t:'Failure', w:'1-2', s:3, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Wide-Grip Lat Pulldown', s2:'Dual-Handle Lat Pulldown', note:'1.5x shoulder width overhand grip. Slow 2-3 second negative. Feel your lats pulling apart on the way down.'},
+        {n:'High-Cable Lateral Raise', t:'Failure', w:'1-2', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'High-Cable Cuffed Lateral Raise', s2:'Lean-In DB Lateral Raise', note:'Focus on squeezing your lateral delt to move the weight.'},
+        {n:'Pendlay Deficit Row', t:'Failure + LLPs (Extend set)', w:'1-2', s:2, r:'6-8', e:'~8-9', l:'10', rest:'2-3 min', s1:'Smith Machine Row', s2:'Single-Arm DB Row', note:'Stand on a bumper plate. Focus on getting a big stretch and touch your stomach/chest on each rep!'},
+        {n:'Overhead Cable Triceps Extension (Bar)', t:'Failure', w:'1', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Overhead Cable Triceps Extension (Rope)', s2:'DB Skull Crusher', note:'Optionally pause for 0.5-1 second at the stretched aspect of each rep.'},
+        {n:'Bayesian Cable Curl', t:'Failure', w:'1', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Super-Bayesian High Cable Curl', s2:'Incline DB Stretch Curl', note:'If you have a left-right bicep size imbalance, do these 1 arm at a time, starting with the weaker arm. Then match the reps and RPE on the weaker arm before doing the stronger arm.'}
+      ]},
+      {id:'lower', name:'Lower', focus:'Strength focus', rest:false, exercises:[
+        {n:'Lying Leg Curl', t:'Failure + LLPs (Extend set)', w:'2', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Leg Curl', s2:'Nordic Ham Curl', note:'Set the machine so you get the biggest stretch possible at the bottom. Prevent your butt from popping up as you curl.'},
+        {n:'Smith Machine Squat', t:'Failure', w:'2-4', s:3, r:'6-8', e:'~8-9', l:'10', rest:'3-5 min', s1:'DB Bulgarian Split Squat', s2:'High-Bar Back Squat', note:'Once under the bar, set your feet as you would a normal squat and lean back into the bar slightly, allowing for a more upright squat and more tension on the quads.'},
+        {n:'Barbell RDL', t:'Failure', w:'2-4', s:3, r:'6-8', e:'~8-9', l:'10', rest:'2-3 min', s1:'DB RDL', s2:'Snatch-Grip RDL', note:'To keep tension on the hamstrings, stop about 75% of the way to full lockout on each rep.'},
+        {n:'Leg Extension', t:'Failure', w:'1-2', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Reverse Nordic', s2:'Sissy Squat', note:'Set the seat back as far as it will go. Pull your butt down into the seat. Use a 2-3 second negative.'},
+        {n:'Standing Calf Raise', t:'Static Stretch (30s)', w:'1-2', s:2, r:'6-8', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Calf Raise', s2:'Leg Press Calf Press', note:'1-2 second pause at the bottom of each rep. Think about rolling your ankle back and forth on the balls of your feet.'},
+        {n:'Cable Crunch', t:'Failure', w:'1', s:2, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Decline Weighted Crunch', s2:'Machine Crunch', note:'Round your lower back as you crunch. Maintain a mind-muscle connection with your abs.'}
+      ]},
+      {id:'restA', name:'Rest', focus:'Rest day', rest:true, exercises:[]},
+      {id:'pull', name:'Pull', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Neutral-Grip Lat Pulldown', t:'Failure', w:'2-3', s:2, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Neutral-Grip Pull-Up', s2:'Dual-Handle Lat Pulldown', note:'Do these with the handle more out in front, more like a cross between a pullover and a pulldown. Focus on feeling your lats rather than the weight.'},
+        {n:'Chest-Supported Machine Row', t:'Failure', w:'2-3', s:3, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Chest-Supported T-Bar Row', s2:'Incline Chest-Supported DB Row', note:'Flare elbows out at roughly 45° and squeeze your shoulder blades together hard at the top of each rep.'},
+        {n:'Neutral-Grip Seated Cable Row', t:'Failure + LLPs (Extend set)', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Helms Row', s2:'Meadows Row', note:'Focus on squeezing your shoulder blades together, driving your elbows down and back.'},
+        {n:'1-Arm 45° Cable Rear Delt Flye', t:'Myo-reps', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Rope Face Pull', s2:'Reverse Pec Deck', note:'Pause for 1-2 seconds in the squeeze of each rep. Contract your rear delts hard!'},
+        {n:'Machine Shrug', t:'Failure', w:'2-3', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Paused Shrug-In', s2:'DB Shrug', note:'Brief pause at the top and bottom of ROM. Think about pulling your shoulders up to your ears!'},
+        {n:'EZ-Bar Cable Curl', t:'Failure', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'EZ-Bar Curl', s2:'DB Curl', note:'Set up the cable at the lowest position. Maintain constant tension on the biceps. Slow, controlled reps!'},
+        {n:'Machine Preacher Curl', t:'Myo-reps', w:'1', s:1, r:'12-15', e:'N/A', l:'10', rest:'1-2 min', s1:'EZ-Bar Preacher Curl', s2:'DB Preacher Curl', note:'Smooth, controlled reps. Mind-muscle connection with the biceps.'}
+      ]},
+      {id:'push', name:'Push', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Barbell Bench Press', t:'Failure', w:'2-4', s:3, r:'8-10', e:'~8-9', l:'10', rest:'3-5 min', s1:'Machine Chest Press', s2:'DB Bench Press', note:'Set up a comfortable arch, quick pause on the chest, explode up on each rep.'},
+        {n:'Machine Shoulder Press', t:'Failure', w:'2-3', s:2, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Cable Shoulder Press', s2:'Seated DB Shoulder Press', note:'Ensure your elbows break at least 90°. Mind-muscle connection with your delts. Smooth, controlled reps.'},
+        {n:'Bottom-Half DB Flye', t:'Failure', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Bottom-Half Seated Cable Flye', s2:'Low-to-High Cable Crossover', note:'All reps and sets performed in the bottom half of the ROM. Focus on feeling a deep stretch in your pecs at the bottom.'},
+        {n:'High-Cable Lateral Raise', t:'Myo-reps', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'High-Cable Cuffed Lateral Raise', s2:'Lean-In DB Lateral Raise', note:'Focus on squeezing your lateral delt to move the weight.'},
+        {n:'Overhead Cable Triceps Extension (Bar)', t:'Failure', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Overhead Cable Triceps Extension (Rope)', s2:'DB Skull Crusher', note:'Optionally pause for 0.5-1 second in the stretched aspect of each rep.'},
+        {n:'Cable Triceps Kickback', t:'Myo-reps', w:'1', s:1, r:'12-15', e:'N/A', l:'10', rest:'1-2 min', s1:'DB Triceps Kickback', s2:'Bench Dip', note:'Upright or bent over, whichever feels more comfortable. Your shoulder should stay positioned back behind your torso.'},
+        {n:'Roman Chair Leg Raise', t:'Failure', w:'1-2', s:2, r:'10-20', e:'~8-9', l:'10', rest:'1-2 min', s1:'Hanging Leg Raise', s2:'Modified Candlestick', note:'Allow your lower back to round as you curl your legs up. 10-20 reps is a broad range on purpose: go until you hit the listed RPE with controlled form.'}
+      ]},
+      {id:'legs', name:'Legs', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Leg Press', t:'Failure', w:'2-4', s:3, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Smith Machine Static Lunge', s2:'DB Walking Lunge', note:'Feet lower on the platform for more quad focus. Get as deep as you can without excessive back rounding. Control the negative, slight pause at the bottom.'},
+        {n:'Seated Leg Curl', t:'Failure + LLPs (Extend set)', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Lying Leg Curl', s2:'Nordic Ham Curl', note:'Lean forward over the machine to get a maximum stretch in your hamstrings.'},
+        {n:'DB Bulgarian Split Squat', t:'Failure', w:'2-3', s:2, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'DB Step-Up', s2:'Goblet Squat', note:'Lower all the way down until your front thigh is parallel to the ground. Drive through your front heel on the way up.'},
+        {n:'Leg Extension', t:'Myo-reps', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Reverse Nordic', s2:'Sissy Squat', note:'Set the seat back as far as it will go. Pull your butt down into the seat. Use a 2-3 second negative.'},
+        {n:'Machine Hip Adduction', t:'Failure', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Hip Adduction', s2:'Copenhagen Hip Adduction', note:'Mind-muscle connection with your inner thighs. Great for adding thigh mass from the front. Push hard!'},
+        {n:'Machine Hip Abduction', t:'Failure', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Hip Abduction', s2:'Lateral Band Walk', note:'If possible, use pads to increase the range of motion. Lean forward and grab onto the machine rails to stretch the glutes further.'},
+        {n:'Standing Calf Raise', t:'Static Stretch (30s)', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Calf Raise', s2:'Leg Press Calf Press', note:'1-2 second pause at the bottom of each rep. Think about rolling your ankle back and forth on the balls of your feet.'}
+      ]},
+      {id:'restB', name:'Rest', focus:'Rest day', rest:true, exercises:[]}
+    ]
+  },
+  {
+    id:'B', label:'Weeks 6-12',
+    days:[
+      {id:'upper', name:'Upper', focus:'Strength focus', rest:false, exercises:[
+        {n:'45° Incline DB Press', t:'Failure', w:'2-3', s:3, r:'8-10', e:'~8-9', l:'10', rest:'3-5 min', s1:'45° Incline Barbell Press', s2:'45° Incline Machine Press', note:'1 second pause at the bottom of each rep while maintaining tension on the pecs.'},
+        {n:'Pec Deck', t:'Failure', w:'1-2', s:3, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Crossover Ladder', s2:'Bottom-Half DB Flye', note:'Focus on bringing your elbows together, not your hands.'},
+        {n:'Dual-Handle Lat Pulldown', t:'Failure', w:'1-2', s:3, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Wide-Grip Lat Pulldown', s2:'Wide-Grip Pull-Up', note:'Lean back ~15° and drive your elbows down as you squeeze your shoulder blades together. This should feel like a mix of lats and mid-traps.'},
+        {n:'High-Cable Lateral Raise', t:'Failure', w:'1-2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'High-Cable Cuffed Lateral Raise', s2:'Lean-In DB Lateral Raise', note:'Focus on squeezing your lateral delt to move the weight.'},
+        {n:'Smith Machine Row', t:'Failure + LLPs (Extend set)', w:'1-2', s:3, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Pendlay Deficit Row', s2:'Single-Arm DB Row', note:'Focus on squeezing your shoulder blades together, keeping your elbows at a ~45° angle.'},
+        {n:'Overhead Cable Triceps Extension (Bar)', t:'Failure', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Overhead Cable Triceps Extension (Rope)', s2:'DB Skull Crusher', note:'Optionally pause for 0.5-1 second in the stretched aspect of each rep.'},
+        {n:'Bayesian Cable Curl', t:'Failure', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Super-Bayesian High Cable Curl', s2:'Incline DB Stretch Curl', note:'If you have a left-right bicep size imbalance, do these 1 arm at a time, starting with the weaker arm. Then match the reps and RPE on the weaker arm before doing the stronger arm.'}
+      ]},
+      {id:'lower', name:'Lower', focus:'Strength focus', rest:false, exercises:[
+        {n:'Lying Leg Curl', t:'Failure + LLPs (Extend set)', w:'2', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Leg Curl', s2:'Nordic Ham Curl', note:'Set the machine so you get the biggest stretch possible at the bottom. Prevent your butt from popping up as you curl.'},
+        {n:'Smith Machine Static Lunge w/ Elevated Front Foot', t:'Failure', w:'2-4', s:3, r:'8-10', e:'~8-9', l:'10', rest:'3-5 min', s1:'DB Bulgarian Split Squat', s2:'High-Bar Back Squat', note:'Elevate your front foot on a small box. Minimize contribution from your back leg.'},
+        {n:'45° Hyperextension', t:'Failure', w:'2-4', s:3, r:'8-10', e:'~8-9', l:'10', rest:'2-3 min', s1:'Glute-Ham Raise', s2:'Cable Pull-Through', note:'Squeeze your glutes hard at the top of each rep. Slow controlled reps on the way down, followed by an explosive positive.'},
+        {n:'Leg Extension', t:'Failure', w:'1-2', s:3, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Reverse Nordic', s2:'Sissy Squat', note:'Set the seat back as far as it will go while still feeling comfortable. Grab the handles as hard as you can to pull your butt down into the seat. Use a 2-3 second negative.'},
+        {n:'Leg Press Calf Press', t:'Static Stretch (30s)', w:'1-2', s:3, r:'8-10', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Calf Raise', s2:'Standing Calf Raise', note:'1-2 second pause at the bottom of each rep. Instead of just going up onto your toes, think about rolling your ankle back and forth on the balls of your feet.'},
+        {n:'Machine Crunch', t:'Failure', w:'1', s:2, r:'10-12', e:'~8-9', l:'10', rest:'1-2 min', s1:'Decline Weighted Crunch', s2:'Cable Crunch', note:'Round your lower back as you crunch. Maintain a mind-muscle connection with your 6-pack.'}
+      ]},
+      {id:'restA', name:'Rest', focus:'Rest day', rest:true, exercises:[]},
+      {id:'pull', name:'Pull', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Lean-Back Lat Pulldown', t:'Failure', w:'2-3', s:3, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Lean-Back Machine Pulldown', s2:'Pull-Up', note:'Initiate the pulldown with a straight posture. As you pull the bar down, lean back slightly to get the mid-back more involved. Softly touch the bar to your chest on every rep and stay in control of the weight.'},
+        {n:'Chest-Supported T-Bar Row', t:'Failure', w:'2-3', s:3, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Chest-Supported Machine Row', s2:'Incline Chest-Supported DB Row', note:'Flare elbows out at roughly 45° and squeeze your shoulder blades together hard at the top of each rep.'},
+        {n:'Dual-Handle Elbows-Out Cable Row', t:'Failure + LLPs (Extend set)', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'2-3 min', s1:'Arm-Out Single-Arm DB Row', s2:'Meadows Row', note:'Flare your elbows out ~45°. Smooth, controlled reps.'},
+        {n:'1-Arm 45° Cable Rear Delt Flye', t:'Myo-reps', w:'1-2', s:3, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Rope Face Pull', s2:'Reverse Pec Deck', note:'Pause for 1-2 seconds in the squeeze of each rep. Contract the rear delts hard!'},
+        {n:'Cable Paused Shrug-In', t:'Failure', w:'2-3', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Machine Shrug', s2:'DB Shrug', note:'Shrug up and in, thinking about shrugging up to your ears. 1-2 second pause in the squeeze at the top of each rep, then another 1-2 second pause in the stretch at the bottom.'},
+        {n:'Cable Rope Hammer Curl', t:'Failure', w:'1', s:3, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'DB Hammer Curl', s2:'Hammer Preacher Curl', note:'Squeeze the rope hard as you curl the weight up. Smooth, controlled reps.'},
+        {n:'DB Concentration Curl', t:'Myo-reps', w:'1', s:2, r:'15-20', e:'~8-9', l:'10', rest:'1-2 min', s1:'Concentration Cable Curl', s2:'DB Preacher Curl', note:'Smooth, controlled reps. Mind-muscle connection with the biceps.'}
+      ]},
+      {id:'push', name:'Push', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Machine Chest Press', t:'Failure', w:'2-4', s:3, r:'10-12', e:'~8-9', l:'10', rest:'3-5 min', s1:'Barbell Bench Press', s2:'DB Bench Press', note:'1 second pause at the bottom of each rep while maintaining tension on the pecs.'},
+        {n:'Seated DB Shoulder Press', t:'Failure', w:'2-3', s:3, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Cable Shoulder Press', s2:'Machine Shoulder Press', note:'Ensure that your elbows break at least 90°. Mind-muscle connection with your delts. Smooth, controlled reps.'},
+        {n:'Bottom-Half Seated Cable Flye', t:'Failure', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Bottom-Half DB Flye', s2:'Low-to-High Cable Crossover', note:'All reps and sets performed in the bottom half of the ROM. Focus on feeling a deep stretch in your pecs at the bottom of each rep.'},
+        {n:'High-Cable Lateral Raise', t:'Myo-reps', w:'1', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'High-Cable Cuffed Lateral Raise', s2:'Lean-In DB Lateral Raise', note:'Focus on squeezing your lateral delt to move the weight.'},
+        {n:'EZ-Bar Skull Crusher', t:'Failure', w:'1', s:3, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'DB Skull Crusher', s2:'Katana Triceps Extension', note:'Optionally pause for 0.5-1 second in the stretched aspect of each rep.'},
+        {n:'Triceps Pressdown (Bar)', t:'Myo-reps', w:'1', s:2, r:'15-20', e:'~8-9', l:'10', rest:'1-2 min', s1:'Triceps Pressdown (Rope)', s2:'DB Triceps Kickback', note:'Focus on squeezing your triceps to move the weight.'},
+        {n:'Ab Wheel Rollout', t:'Failure', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Swiss Ball Rollout', s2:'Long Lever Plank', note:'Do not just bend at the hips, use your abs to lower yourself down under control and pull yourself back up. If you lack the core strength to roll all the way out, progressively increase the range of motion week to week.'}
+      ]},
+      {id:'legs', name:'Legs', focus:'Hypertrophy focus', rest:false, exercises:[
+        {n:'Hack Squat', t:'Failure', w:'2-4', s:3, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Leg Press', s2:'DB Walking Lunge', note:'Use a controlled negative (no free fall) and then explode on the positive.'},
+        {n:'Seated Leg Curl', t:'Failure + LLPs (Extend set)', w:'1-2', s:3, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Lying Leg Curl', s2:'Nordic Ham Curl', note:'Lean forward over the machine to get a maximum stretch in your hamstrings.'},
+        {n:'Walking Lunge', t:'Failure', w:'2-3', s:2, r:'10-12', e:'~8-9', l:'10', rest:'2-3 min', s1:'Smith Machine Static Lunge', s2:'DB Static Lunge', note:'Take medium strides. Minimize contribution from the back leg.'},
+        {n:'Leg Extension', t:'Myo-reps', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Reverse Nordic', s2:'Sissy Squat', note:'Set the seat back as far as it will go while still feeling comfortable. Grab the handles as hard as you can to pull your butt down into the seat. Use a 2-3 second negative.'},
+        {n:'Machine Hip Adduction', t:'Failure', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Hip Adduction', s2:'Copenhagen Hip Adduction', note:'Mind-muscle connection with your inner thighs. These are great for adding thigh mass from the front. Push them hard!'},
+        {n:'Machine Hip Abduction', t:'Failure', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Cable Hip Abduction', s2:'Lateral Band Walk', note:'If possible, use pads to increase the range of motion on the machine. Lean forward and grab onto the machine rails to stretch the glutes further.'},
+        {n:'Standing Calf Raise', t:'Static Stretch (30s)', w:'1-2', s:2, r:'12-15', e:'~8-9', l:'10', rest:'1-2 min', s1:'Seated Calf Raise', s2:'Leg Press Calf Press', note:'1-2 second pause at the bottom of each rep. Think about rolling your ankle back and forth on the balls of your feet.'}
+      ]},
+      {id:'restB', name:'Rest', focus:'Rest day', rest:true, exercises:[]}
+    ]
+  }
+];
 
-(function(){
-  // -------------------------
-  // Data: Blocks & Days (kept compact for readability)
-  // Replace or extend this BLOCKS array with your full original content if you want exact parity.
-  // -------------------------
-  const BLOCKS = [
-    { id: 'A', label: 'Block A · Weeks 1-5', weeks: [1,5],
-      days: [
-        { id: 'upper', name: 'Upper', rest: false, exercises: [
-          { name: 'Bench Press', sets: 5, reps: '5', warmup: 2, rpe: 8 },
-          { name: 'Overhead Press', sets: 4, reps: '6', warmup: 2, rpe: 8 },
-        ]},
-        { id: 'lower', name: 'Lower', rest: false, exercises: [
-          { name: 'Squat', sets: 5, reps: '5', warmup: 2, rpe: 8 },
-          { name: 'Romanian Deadlift', sets: 3, reps: '8', warmup: 1 },
-        ]},
-        { id: 'restA', name: 'Rest', rest: true, exercises: []}
-      ]
-    },
-    { id: 'B', label: 'Block B · Weeks 6-12', weeks: [6,12],
-      days: [
-        { id: 'pull', name: 'Pull', rest: false, exercises: [
-          { name: 'Barbell Row', sets: 4, reps: '6' },
-          { name: 'Chin-Up', sets: 4, reps: '6' }
-        ]},
-        { id: 'push', name: 'Push', rest: false, exercises: [
-          { name: 'Incline Bench', sets: 4, reps: '6' },
-          { name: 'Dips', sets: 3, reps: '8' }
-        ]},
-        { id: 'legs', name: 'Legs', rest: false, exercises: [
-          { name: 'Front Squat', sets: 4, reps: '6' },
-          { name: 'Leg Curl', sets: 3, reps: '10' }
-        ]}
-      ]
+BLOCKS.forEach(block=>{
+  block.days.forEach(day=>{
+    day.exercises.forEach((ex,i)=>{ ex.id = block.id+'-'+day.id+'-'+i; });
+  });
+});
+
+function blockForWeek(week){
+  return (week>=6) ? BLOCKS.find(b=>b.id==='B') : BLOCKS.find(b=>b.id==='A');
+}
+
+const hasStorage = !!(window.storage);
+let currentWeek = 1;
+let currentBlock = blockForWeek(currentWeek);
+let currentDayId = currentBlock.days.find(d=>!d.rest).id;
+let currentDate = todayStr();
+let sessionData = {};
+let prevSessionInfo = null;
+let openDetails = {};
+
+function todayStr(){
+  const d = new Date();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear()+'-'+mm+'-'+dd;
+}
+
+function fmtDate(dateStr){
+  const [y,m,d] = dateStr.split('-');
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[parseInt(m,10)-1]+' '+parseInt(d,10);
+}
+
+async function safeGet(key){
+  if(!hasStorage) return null;
+  try{ return await window.storage.get(key); }catch(e){ return null; }
+}
+async function safeSet(key,value){
+  if(!hasStorage) return null;
+  try{ return await window.storage.set(key, value); }catch(e){ console.error('storage set failed',e); return null; }
+}
+
+async function loadDates(blockId,dayId){
+  const res = await safeGet('dates:'+blockId+':'+dayId);
+  if(!res) return [];
+  try{ return JSON.parse(res.value); }catch(e){ return []; }
+}
+async function saveDates(blockId,dayId, arr){
+  await safeSet('dates:'+blockId+':'+dayId, JSON.stringify(arr));
+}
+async function loadSession(blockId,dayId,date){
+  const res = await safeGet('session:'+blockId+':'+dayId+':'+date);
+  if(!res) return {};
+  try{ return JSON.parse(res.value); }catch(e){ return {}; }
+}
+async function saveSession(blockId,dayId,date,data){
+  await safeSet('session:'+blockId+':'+dayId+':'+date, JSON.stringify(data));
+  const dates = await loadDates(blockId,dayId);
+  if(!dates.includes(date)){
+    dates.push(date);
+    dates.sort();
+    await saveDates(blockId,dayId,dates);
+  }
+}
+async function findPrevSession(blockId,dayId,date){
+  const dates = await loadDates(blockId,dayId);
+  const priorDates = dates.filter(d=>d<date);
+  if(priorDates.length===0) return null;
+  const prior = priorDates[priorDates.length-1];
+  const data = await loadSession(blockId,dayId,prior);
+  return {date:prior, data};
+}
+
+function getSets(record){
+  if(!record) return [];
+  return Array.isArray(record) ? record : (record.sets || []);
+}
+function getVariant(record){
+  if(!record) return 'main';
+  return Array.isArray(record) ? 'main' : (record.variant || 'main');
+}
+function getExtra(record){
+  if(!record || Array.isArray(record)) return 0;
+  return record.extra || 0;
+}
+function variantName(ex,variant){
+  if(variant==='sub1') return ex.s1;
+  if(variant==='sub2') return ex.s2;
+  return ex.n;
+}
+
+async function loadWeekPref(){
+  const res = await safeGet('meta:week');
+  if(!res) return null;
+  try{ return JSON.parse(res.value); }catch(e){ return null; }
+}
+async function saveWeekPref(week){
+  await safeSet('meta:week', JSON.stringify(week));
+}
+
+function renderTabs(){
+  const nav = document.getElementById('dayTabs');
+  nav.innerHTML = '';
+  currentBlock.days.forEach(day=>{
+    const tab = document.createElement('div');
+    tab.className = 'tab'+(day.id===currentDayId?' active':'')+(day.rest?' rest':'');
+    tab.innerHTML = day.name+'<span class="sub">'+(day.rest?'':day.focus)+'</span>';
+    tab.addEventListener('click', ()=>{ currentDayId = day.id; renderDay(); });
+    nav.appendChild(tab);
+  });
+}
+
+async function renderDay(){
+  document.getElementById('blockTag').textContent = 'Block '+currentBlock.id+' · '+currentBlock.label;
+  renderTabs();
+  const day = currentBlock.days.find(d=>d.id===currentDayId);
+  const content = document.getElementById('dayContent');
+
+  if(day.rest){
+    content.innerHTML = '<div class="rest-message">Rest day — no exercises programmed</div>';
+    updateProgressBadge(0,0);
+    return;
+  }
+
+  sessionData = await loadSession(currentBlock.id, day.id, currentDate);
+  prevSessionInfo = await findPrevSession(currentBlock.id, day.id, currentDate);
+
+  let html = '<div class="day-heading"><h2>'+day.name+'</h2><span class="focus">'+day.focus+'</span></div>';
+
+  day.exercises.forEach(ex=>{
+    const record = sessionData[ex.id];
+    const loggedSets = getSets(record);
+    const variant = getVariant(record);
+    const prevRecord = prevSessionInfo && prevSessionInfo.data[ex.id];
+    const prevSets = getSets(prevRecord);
+    const isOpen = !!openDetails[ex.id];
+    const displayName = variantName(ex,variant);
+
+    let rpeTxt = ex.e==='N/A' ? 'N/A' : (ex.e+' → '+ex.l);
+
+    html += '<div class="exercise" data-ex="'+ex.id+'">';
+    html += '  <div class="ex-head" data-toggle="'+ex.id+'">';
+    html += '    <div>';
+    html += '      <p class="ex-name">'+displayName+(variant!=='main' ? ' <span class="sub-flag">(substitution)</span>' : '')+'</p>';
+    html += '      <p class="ex-target">'+ex.s+' × '+ex.r+' &nbsp;·&nbsp; RPE <span class="rpe">'+rpeTxt+'</span> &nbsp;·&nbsp; rest '+ex.rest+'</p>';
+    html += '    </div>';
+    html += '    <div class="ex-toggle">'+(isOpen?'Hide details':'Details')+'</div>';
+    html += '  </div>';
+
+    html += '  <div class="ex-details'+(isOpen?' open':'')+'" id="details-'+ex.id+'">';
+    html += '    <div class="row"><b>Technique:</b> '+ex.t+'</div>';
+    html += '    <div class="row"><b>Warm-up sets:</b> '+ex.w+'</div>';
+    html += '    <div class="row"><b>Notes:</b> '+ex.note+'</div>';
+    html += '  </div>';
+
+    html += '  <p class="variant-label">Exercise performed</p>';
+    html += '  <div class="variant-row">';
+    html += '    <button type="button" class="variant-chip'+(variant==='main'?' active':'')+'" data-ex="'+ex.id+'" data-variant="main">'+ex.n+'</button>';
+    html += '    <button type="button" class="variant-chip'+(variant==='sub1'?' active':'')+'" data-ex="'+ex.id+'" data-variant="sub1">'+ex.s1+'</button>';
+    html += '    <button type="button" class="variant-chip'+(variant==='sub2'?' active':'')+'" data-ex="'+ex.id+'" data-variant="sub2">'+ex.s2+'</button>';
+    html += '  </div>';
+
+    html += '  <div class="field-labels"><span></span><span>Weight</span><span>Reps</span><span></span></div>';
+    html += '  <div class="sets">';
+    const extra = getExtra(record);
+    const totalSets = ex.s + extra;
+    for(let i=0;i<totalSets;i++){
+      const cur = loggedSets[i] || {weight:'',reps:''};
+      const prev = prevSets[i];
+      const hint = prev ? (prev.weight+' × '+prev.reps) : '—';
+      let upClass = '';
+      if(prev && cur.weight && parseFloat(cur.weight) > parseFloat(prev.weight)) upClass = 'up';
+      const logged = (cur.weight!=='' && cur.reps!=='') ? ' logged' : '';
+      const isExtra = i>=ex.s;
+      html += '<div class="set-row">';
+      html += '  <span class="set-label">Set '+(i+1)+(isExtra?' <span class="sub-flag">extra</span>':'')+'</span>';
+      html += '  <input type="number" inputmode="decimal" placeholder="'+(prev?prev.weight:'lbs')+'" value="'+cur.weight+'" class="'+logged.trim()+'" data-ex="'+ex.id+'" data-set="'+i+'" data-field="weight">';
+      html += '  <input type="number" inputmode="numeric" placeholder="'+(prev?prev.reps:'reps')+'" value="'+cur.reps+'" class="'+logged.trim()+'" data-ex="'+ex.id+'" data-set="'+i+'" data-field="reps">';
+      if(isExtra && i===totalSets-1){
+        html += '  <button type="button" class="remove-set-btn" data-ex="'+ex.id+'">remove</button>';
+      }else{
+        html += '  <span class="set-hint">last: <span class="'+upClass+'">'+hint+'</span></span>';
+      }
+      html += '</div>';
     }
-  ];
+    html += '  </div>';
+    html += '  <button type="button" class="add-set-btn" data-ex="'+ex.id+'">+ Add set</button>';
+    html += '</div>';
+  });
 
-  // -------------------------
-  // Utilities: date, format, helpers
-  // -------------------------
-  const $ = (sel, root=document) => root.querySelector(sel);
-  const $$$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-  const fmtDate = d => {
-    if(!d) return '';
-    const dt = (d instanceof Date) ? d : new Date(d);
-    if (isNaN(dt)) return '';
-    return dt.toISOString().slice(0,10);
-  };
-  const todayISO = ()=> fmtDate(new Date());
-  const safeParse = s => { try { return JSON.parse(s); } catch(e){ return null } };
+  content.innerHTML = html;
 
-  // -------------------------
-  // Robust async storage wrapper
-  // - tries window.storage.get/set if present (handles shape {value:...})
-  // - falls back to localStorage (wrapped async)
-  // - if neither available, becomes no-op but warns user
-  // -------------------------
-  const StorageBackend = (() => {
-    const hasWindowStorage = typeof window !== 'undefined' && window.storage && typeof window.storage.get === 'function';
-    const hasLocal = typeof window !== 'undefined' && window.localStorage;
-    const warnNoop = () => { console.warn('No persistent storage available — using in-memory fallback for this session'); };
-    let inMemory = {};
-
-    async function get(key){
-      if(hasWindowStorage){
-        try{
-          const res = await window.storage.get(key);
-          // window.storage.get may return { value: X } or X directly
-          if(res && typeof res === 'object' && res.hasOwnProperty('value')) return res.value;
-          return res;
-        }catch(e){
-          console.warn('window.storage.get failed, falling back', e);
-        }
-      }
-      if(hasLocal){
-        try{
-          const raw = localStorage.getItem(key);
-          return raw === null ? undefined : safeParse(raw);
-        }catch(e){
-          console.warn('localStorage.get failed, falling back to memory', e);
-        }
-      }
-      // fallback to in-memory
-      return inMemory.hasOwnProperty(key) ? inMemory[key] : undefined;
-    }
-
-    async function set(key, value){
-      if(hasWindowStorage){
-        try{
-          // some implementations expect {key: value} or (key, value) — try the common one
-          if(typeof window.storage.set === 'function'){
-            await window.storage.set({ [key]: value });
-            return true;
-          }
-        }catch(e){
-          console.warn('window.storage.set failed, trying localStorage', e);
-        }
-      }
-      if(hasLocal){
-        try{
-          localStorage.setItem(key, JSON.stringify(value));
-          return true;
-        }catch(e){
-          console.warn('localStorage.set failed, using in-memory', e);
-        }
-      }
-      inMemory[key] = value;
-      warnNoop();
-      return true;
-    }
-
-    async function remove(key){
-      if(hasWindowStorage){
-        try{ await window.storage.remove(key); return true; } catch(e){ /*ignore*/ }
-      }
-      if(hasLocal){
-        try{ localStorage.removeItem(key); return true; } catch(e){ /*ignore*/ }
-      }
-      delete inMemory[key];
-      return true;
-    }
-
-    return { get, set, remove, _hasWindowStorage: hasWindowStorage, _hasLocalStorage: hasLocal };
-  })();
-
-  // -------------------------
-  // App state
-  // -------------------------
-  let currentWeek = 1;
-  let currentBlock = BLOCKS[0];
-  let currentDay = currentBlock.days[0];
-  let currentDate = todayISO();
-  const weekInputEl = $('#weekInput');
-  const dateInputEl = $('#dateInput');
-  const blockTagEl = $('#blockTag');
-  const dayTabsEl = $('#dayTabs');
-  const dayContentEl = $('#dayContent');
-  const todayBtn = $('#todayBtn');
-  const historyToggleBtn = $('#historyToggleBtn');
-  const progressBadge = $('#progressBadge');
-  const historyView = $('#historyView');
-  const histBlockSelect = $('#histBlockSelect');
-  const histDaySelect = $('#histDaySelect');
-  const histLoadBtn = $('#histLoadBtn');
-  const historyPanel = $('#historyPanel');
-
-  // -------------------------
-  // Keys & data helpers
-  // -------------------------
-  const keyWeek = () => 'meta:week';
-  const keyDates = (blockId, dayId) => `dates:${blockId}:${dayId}`; // stores array of dates (strings)
-  const keySession = (blockId, dayId, date) => `session:${blockId}:${dayId}:${date}`; // stores session object
-
-  // Normalize session shape: ensure exercises object exists etc.
-  function normalizeSession(raw, blockId, dayId, date){
-    const session = (raw && typeof raw === 'object') ? JSON.parse(JSON.stringify(raw)) : {};
-    session.date = fmtDate(date || session.date || date || currentDate);
-    session.blockId = blockId || session.blockId || (currentBlock && currentBlock.id);
-    session.dayId = dayId || session.dayId || (currentDay && currentDay.id);
-    session.exercises = session.exercises || {};
-    // Initialize entries for each exercise index to have consistent shape
-    const dayDef = (BLOCKS.find(b=>b.id === session.blockId) || BLOCKS[0]).days.find(d=>d.id === session.dayId) || currentDay;
-    (dayDef.exercises || []).forEach((ex, idx) => {
-      if(!session.exercises[idx]) session.exercises[idx] = { variant: '', extra: '', sets: Array.from({length: ex.sets || 0}, ()=>({weight:'',reps:''})) };
-      else {
-        // ensure sets array has right length
-        session.exercises[idx].sets = session.exercises[idx].sets || [];
-        while(session.exercises[idx].sets.length < (ex.sets||0)) session.exercises[idx].sets.push({weight:'', reps:''});
-      }
+  content.querySelectorAll('[data-toggle]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const id = el.getAttribute('data-toggle');
+      openDetails[id] = !openDetails[id];
+      renderDay();
     });
-    return session;
-  }
+  });
 
-  // -------------------------
-  // Debounce helper
-  // -------------------------
-  function debounce(fn, wait){
-    let t;
-    return function(...args){
-      clearTimeout(t);
-      t = setTimeout(()=>fn.apply(this,args), wait);
-    };
-  }
+  content.querySelectorAll('input[data-field]').forEach(inp=>{
+    inp.addEventListener('click', e=>e.stopPropagation());
+    inp.addEventListener('change', onSetInputChange);
+  });
 
-  const saveSessionDebounced = debounce(saveSessionImmediate, 400);
+  content.querySelectorAll('.variant-chip').forEach(chip=>{
+    chip.addEventListener('click', e=>{ e.stopPropagation(); onVariantChange(chip); });
+  });
 
-  // -------------------------
-  // Core persistence functions
-  // -------------------------
-  async function saveWeekPref(week){
-    try{ await StorageBackend.set(keyWeek(), Number(week)); } catch(e){ console.warn(e); }
-  }
-  async function loadWeekPref(){
-    try{ const v = await StorageBackend.get(keyWeek()); return Number(v) || undefined } catch(e){ return undefined; }
-  }
+  content.querySelectorAll('.add-set-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{ e.stopPropagation(); onAddSet(btn.getAttribute('data-ex')); });
+  });
 
-  async function saveSessionImmediate(session){
-    // Session must be normalized before calling (or call normalize here)
-    try{
-      if(!session || !session.date) return;
-      const key = keySession(session.blockId, session.dayId, session.date);
-      await StorageBackend.set(key, session);
-      // ensure date is in dates list
-      const datesKey = keyDates(session.blockId, session.dayId);
-      const existing = (await StorageBackend.get(datesKey)) || [];
-      const s = new Set(existing);
-      if(!s.has(session.date)){
-        existing.push(session.date);
-        existing.sort(); // ISO strings sort ascending
-        await StorageBackend.set(datesKey, existing);
-      }
-      // UI feedback
-      updateProgressBadge(session);
-    }catch(e){
-      console.error('Failed to save session', e);
-    }
-  }
-
-  async function saveSessionFromState(){
-    // gather state from DOM to create session object and save (used on explicit save)
-    const session = buildSessionFromDom();
-    await saveSessionImmediate(session);
-  }
-
-  async function loadSession(blockId, dayId, date){
-    const key = keySession(blockId, dayId, date);
-    const raw = await StorageBackend.get(key);
-    return normalizeSession(raw, blockId, dayId, date);
-  }
-
-  async function loadDatesFor(blockId, dayId){
-    const raw = await StorageBackend.get(keyDates(blockId, dayId));
-    return Array.isArray(raw) ? raw.slice() : [];
-  }
-
-  // Find previous session date (strictly before targetDate). Dates array assumed sorted ascending.
-  function findPrevSessionDate(dates, targetDate){
-    if(!Array.isArray(dates) || dates.length===0) return null;
-    const t = fmtDate(targetDate);
-    let lo=0, hi=dates.length-1, ans = null;
-    while(lo<=hi){
-      const mid = Math.floor((lo+hi)/2);
-      if(dates[mid] < t){ ans = dates[mid]; lo = mid+1; }
-      else hi = mid-1;
-    }
-    return ans;
-  }
-
-  // -------------------------
-  // DOM rendering helpers — batched where possible
-  // -------------------------
-  function renderTabs(){
-    dayTabsEl.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    const days = currentBlock.days || [];
-    days.forEach(d => {
-      const btn = document.createElement('button');
-      btn.className = 'tab' + (d.id === currentDay.id ? ' active' : '');
-      btn.dataset.dayId = d.id;
-      btn.type = 'button';
-      btn.textContent = d.name + (d.rest ? ' (Rest)' : '');
-      frag.appendChild(btn);
+  content.querySelectorAll('.remove-set-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      onRemoveSet(btn.getAttribute('data-ex'));
     });
-    dayTabsEl.appendChild(frag);
+  });
+
+  updateProgressBadgeFor(day);
+}
+
+function ensureRecord(exId){
+  if(!sessionData[exId] || Array.isArray(sessionData[exId])){
+    sessionData[exId] = {variant:'main', extra:0, sets: getSets(sessionData[exId])};
+  }
+  if(sessionData[exId].extra === undefined) sessionData[exId].extra = 0;
+  return sessionData[exId];
+}
+
+async function onSetInputChange(e){
+  const exId = e.target.getAttribute('data-ex');
+  const setIdx = parseInt(e.target.getAttribute('data-set'),10);
+  const field = e.target.getAttribute('data-field');
+  const value = e.target.value;
+
+  const record = ensureRecord(exId);
+  while(record.sets.length <= setIdx) record.sets.push({weight:'',reps:''});
+  record.sets[setIdx][field] = value;
+
+  const day = currentBlock.days.find(d=>d.id===currentDayId);
+  await saveSession(currentBlock.id, day.id, currentDate, sessionData);
+
+  const set = record.sets[setIdx];
+  const row = e.target.closest('.set-row');
+  const bothFilled = set.weight!=='' && set.reps!=='';
+  row.querySelectorAll('input').forEach(i=>i.classList.toggle('logged', bothFilled));
+
+  updateProgressBadgeFor(day);
+}
+
+async function onVariantChange(chip){
+  const exId = chip.getAttribute('data-ex');
+  const variant = chip.getAttribute('data-variant');
+
+  const record = ensureRecord(exId);
+  record.variant = variant;
+
+  const day = currentBlock.days.find(d=>d.id===currentDayId);
+  await saveSession(currentBlock.id, day.id, currentDate, sessionData);
+
+  renderDay();
+}
+
+async function onAddSet(exId){
+  const record = ensureRecord(exId);
+  record.extra = (record.extra||0) + 1;
+
+  const day = currentBlock.days.find(d=>d.id===currentDayId);
+  await saveSession(currentBlock.id, day.id, currentDate, sessionData);
+
+  renderDay();
+}
+
+async function onRemoveSet(exId){
+  const record = ensureRecord(exId);
+  if(record.extra > 0){
+    record.extra -= 1;
+    const day = currentBlock.days.find(d=>d.id===currentDayId);
+    const ex = day.exercises.find(x=>x.id===exId);
+    const newTotal = ex.s + record.extra;
+    if(record.sets.length > newTotal) record.sets = record.sets.slice(0, newTotal);
+    await saveSession(currentBlock.id, day.id, currentDate, sessionData);
   }
 
-  function renderDayContent(session){
-    dayContentEl.innerHTML = ''; // keep single replacement; inside we will build full structure once
-    const frag = document.createDocumentFragment();
-    const dayDef = currentDay;
-    (dayDef.exercises || []).forEach((ex, exIndex) => {
-      const card = document.createElement('section');
-      card.className = 'exercise';
-      const title = document.createElement('div');
-      title.className = 'title';
-      const h3 = document.createElement('h3');
-      h3.textContent = ex.name;
-      const meta = document.createElement('div');
-      meta.style.marginLeft = 'auto';
-      meta.style.fontFamily = 'JetBrains Mono, monospace';
-      meta.style.fontSize = '12px';
-      meta.style.color = 'var(--text-faint)';
-      meta.textContent = `${ex.sets || 0} × ${ex.reps || '—'}`;
-      title.appendChild(h3);
-      title.appendChild(meta);
-      card.appendChild(title);
+  renderDay();
+}
 
-      const list = document.createElement('div');
-      list.className = 'set-list';
-      // header labels
-      const labels = ['#','Notes','Weight','Reps'];
-      labels.forEach(lbl => {
-        const el = document.createElement('div');
-        el.style.fontSize = '12px';
-        el.style.color = 'var(--text-faint)';
-        el.style.paddingBottom = '6px';
-        el.textContent = lbl;
-        list.appendChild(el);
-      });
+function updateProgressBadge(logged,total){
+  const badge = document.getElementById('progressBadge');
+  badge.textContent = logged+' / '+total+' logged';
+  badge.classList.toggle('full', total>0 && logged===total);
+}
+function updateProgressBadgeFor(day){
+  const total = day.exercises.length;
+  let logged = 0;
+  day.exercises.forEach(ex=>{
+    const sets = getSets(sessionData[ex.id]);
+    if(sets.some(s=>s.weight!=='' && s.reps!=='')) logged++;
+  });
+  updateProgressBadge(logged,total);
+}
 
-      const sessEx = (session.exercises && session.exercises[exIndex]) || { sets: [] };
-      const setsCount = ex.sets || 0;
-      for(let si=0; si<setsCount; si++){
-        const idxCol = document.createElement('div'); idxCol.textContent = (si+1).toString();
-        const noteCol = document.createElement('div');
-        const noteInput = document.createElement('input'); noteInput.type='text'; noteInput.placeholder='note'; noteInput.className='note';
-        noteInput.dataset.ex = exIndex; noteInput.dataset.set = si;
-        noteInput.value = (sessEx.sets && sessEx.sets[si] && sessEx.sets[si].note) ? sessEx.sets[si].note : '';
-        noteCol.appendChild(noteInput);
+document.getElementById('dateInput').value = currentDate;
+document.getElementById('dateInput').addEventListener('change', e=>{
+  currentDate = e.target.value || todayStr();
+  renderDay();
+});
+document.getElementById('todayBtn').addEventListener('click', ()=>{
+  currentDate = todayStr();
+  document.getElementById('dateInput').value = currentDate;
+  renderDay();
+});
 
-        const weightCol = document.createElement('div');
-        const weightInput = document.createElement('input'); weightInput.type='number'; weightInput.className='weight';
-        weightInput.dataset.ex = exIndex; weightInput.dataset.set = si; weightInput.step='0.5';
-        weightInput.value = (sessEx.sets && sessEx.sets[si] && sessEx.sets[si].weight) ? sessEx.sets[si].weight : '';
-        weightCol.appendChild(weightInput);
-
-        const repsCol = document.createElement('div');
-        const repsInput = document.createElement('input'); repsInput.type='number'; repsInput.className='reps';
-        repsInput.dataset.ex = exIndex; repsInput.dataset.set = si;
-        repsInput.value = (sessEx.sets && sessEx.sets[si] && sessEx.sets[si].reps) ? sessEx.sets[si].reps : '';
-        repsCol.appendChild(repsInput);
-
-        list.appendChild(idxCol);
-        list.appendChild(noteCol);
-        list.appendChild(weightCol);
-        list.appendChild(repsCol);
-      }
-
-      card.appendChild(list);
-      frag.appendChild(card);
-    });
-    dayContentEl.appendChild(frag);
-    updateProgressBadge(session);
+const weekInputEl = document.getElementById('weekInput');
+weekInputEl.addEventListener('change', async ()=>{
+  let week = parseInt(weekInputEl.value,10);
+  if(isNaN(week) || week<1) week = 1;
+  if(week>12) week = 12;
+  weekInputEl.value = week;
+  currentWeek = week;
+  currentBlock = blockForWeek(currentWeek);
+  if(!currentBlock.days.some(d=>d.id===currentDayId)){
+    currentDayId = currentBlock.days.find(d=>!d.rest).id;
   }
+  await saveWeekPref(currentWeek);
+  renderDay();
+});
 
-  function updateProgressBadge(session){
-    // Count logged sets where weight or reps are non-empty
-    try{
-      const dayDef = currentDay;
-      let total=0, logged=0;
-      (dayDef.exercises || []).forEach((ex, exIndex) => {
-        const sets = (session && session.exercises && session.exercises[exIndex] && session.exercises[exIndex].sets) || [];
-        total += ex.sets || 0;
-        sets.forEach(s => { if(s && ((s.weight !== '' && s.weight != null) || (s.reps !== '' && s.reps != null))) logged++; });
-      });
-      progressBadge.textContent = `${logged} / ${total} logged`;
-      if(logged === total && total>0) progressBadge.classList.add('full'); else progressBadge.classList.remove('full');
-    }catch(e){ console.warn(e) }
+/* ---------- History view ---------- */
+
+const historyToggleBtn = document.getElementById('historyToggleBtn');
+const historyView = document.getElementById('historyView');
+const dayTabsEl = document.getElementById('dayTabs');
+const dayContentEl = document.getElementById('dayContent');
+const histBlockSelect = document.getElementById('histBlockSelect');
+const histDaySelect = document.getElementById('histDaySelect');
+const histExerciseSelect = document.getElementById('histExerciseSelect');
+
+let historyOpen = false;
+
+historyToggleBtn.addEventListener('click', ()=>{
+  historyOpen = !historyOpen;
+  if(historyOpen){
+    dayTabsEl.style.display = 'none';
+    dayContentEl.style.display = 'none';
+    historyView.style.display = 'block';
+    historyToggleBtn.textContent = 'Back to log';
+    populateHistBlockSelect();
+  }else{
+    dayTabsEl.style.display = '';
+    dayContentEl.style.display = '';
+    historyView.style.display = 'none';
+    historyToggleBtn.textContent = 'History';
   }
+});
 
-  // -------------------------
-  // Build session object from DOM
-  // -------------------------
-  function buildSessionFromDom(){
-    const date = dateInputEl.value || currentDate;
-    const session = { date: fmtDate(date), blockId: currentBlock.id, dayId: currentDay.id, exercises: {} };
-    const exerciseCards = $$$('.exercise', dayContentEl);
-    exerciseCards.forEach((card, exIndex) => {
-      session.exercises[exIndex] = session.exercises[exIndex] || { variant: '', extra: '', sets: [] };
-      const setInputs = Array.from(card.querySelectorAll('.set-list .weight, .set-list .reps, .set-list .note'));
-      // we created inputs in order: note, weight, reps for each set (but set-list has header + repeated columns)
-      // Safer: query by data attributes
-      const weights = $$$('.weight', card);
-      const reps = $$$('.reps', card);
-      const notes = $$$('.note', card);
-      const setsCount = Math.max(weights.length, reps.length, notes.length);
-      session.exercises[exIndex].sets = [];
-      for(let i=0;i<setsCount;i++){
-        const w = weights[i] ? weights[i].value : '';
-        const r = reps[i] ? reps[i].value : '';
-        const n = notes[i] ? notes[i].value : '';
-        session.exercises[exIndex].sets.push({ weight: w === '' ? '' : w, reps: r === '' ? '' : r, note: n || '' });
-      }
-    });
-    return session;
+function populateHistBlockSelect(){
+  histBlockSelect.innerHTML = BLOCKS.map(b=>'<option value="'+b.id+'">Block '+b.id+' · '+b.label+'</option>').join('');
+  histBlockSelect.value = currentBlock.id;
+  populateHistDaySelect();
+}
+
+function populateHistDaySelect(){
+  const block = BLOCKS.find(b=>b.id===histBlockSelect.value);
+  const trainingDays = block.days.filter(d=>!d.rest);
+  histDaySelect.innerHTML = trainingDays.map(d=>'<option value="'+d.id+'">'+d.name+' · '+d.focus+'</option>').join('');
+  if(trainingDays.some(d=>d.id===currentDayId)){
+    histDaySelect.value = currentDayId;
   }
+  populateHistExerciseSelect();
+}
 
-  // -------------------------
-  // Load / Render current session
-  // -------------------------
-  async function loadAndRenderSession(blockId, dayId, date){
+function populateHistExerciseSelect(){
+  const block = BLOCKS.find(b=>b.id===histBlockSelect.value);
+  const day = block.days.find(d=>d.id===histDaySelect.value);
+  histExerciseSelect.innerHTML = day.exercises.map(ex=>'<option value="'+ex.id+'">'+ex.n+'</option>').join('');
+  renderHistory();
+}
+
+histBlockSelect.addEventListener('change', populateHistDaySelect);
+histDaySelect.addEventListener('change', populateHistExerciseSelect);
+histExerciseSelect.addEventListener('change', renderHistory);
+
+async function renderHistory(){
+  const blockId = histBlockSelect.value;
+  const dayId = histDaySelect.value;
+  const exId = histExerciseSelect.value;
+  const container = document.getElementById('historyContent');
+  if(!exId){ container.innerHTML = ''; return; }
+
+  const block = BLOCKS.find(b=>b.id===blockId);
+  const day = block.days.find(d=>d.id===dayId);
+  const ex = day.exercises.find(e=>e.id===exId);
+
+  const dates = await loadDates(blockId, dayId);
+  const groups = {main:[], sub1:[], sub2:[]};
+  for(const date of dates){
     const session = await loadSession(blockId, dayId, date);
-    // ensure session has proper sets
-    const normalized = normalizeSession(session, blockId, dayId, date);
-    renderDayContent(normalized);
-    // attach quick save on inputs via event delegation below
-  }
-
-  // -------------------------
-  // History rendering (parallel loads, batched DOM updates)
-  // -------------------------
-  async function renderHistory(blockId, dayId){
-    historyPanel.innerHTML = '';
-    const dates = await loadDatesFor(blockId, dayId);
-    if(!dates || dates.length === 0){
-      historyPanel.innerHTML = '<div class="history-empty">No history for this day yet.</div>';
-      return;
-    }
-    // load all sessions in parallel
-    const loads = dates.map(d => loadSession(blockId, dayId, d).catch(()=>null));
-    const sessions = (await Promise.all(loads)).filter(Boolean);
-    if(sessions.length === 0){
-      historyPanel.innerHTML = '<div class="history-empty">No readable history entries.</div>';
-      return;
-    }
-    // Build table showing date and first-set weight for each exercise (simple compact view)
-    const frag = document.createDocumentFragment();
-    const table = document.createElement('table'); table.className = 'history-table';
-    const thead = document.createElement('thead');
-    const trh = document.createElement('tr');
-    trh.appendChild(Object.assign(document.createElement('th'), {textContent: 'Date'}));
-    // assume dayDef to name columns
-    const dayDef = (BLOCKS.find(b=>b.id===blockId)||BLOCKS[0]).days.find(d=>d.id===dayId) || { exercises: [] };
-    dayDef.exercises.forEach(ex => { const th = document.createElement('th'); th.textContent = ex.name; trh.appendChild(th); });
-    thead.appendChild(trh); table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    sessions.forEach(s => {
-      const tr = document.createElement('tr');
-      const tdDate = document.createElement('td'); tdDate.textContent = fmtDate(s.date); tr.appendChild(tdDate);
-      dayDef.exercises.forEach((ex, idx) => {
-        const td = document.createElement('td');
-        const exData = s.exercises && s.exercises[idx];
-        const firstSet = exData && exData.sets && exData.sets[0];
-        td.textContent = (firstSet && (firstSet.weight || firstSet.reps)) ? `${firstSet.weight||'—'} × ${firstSet.reps||'—'}` : '—';
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-    frag.appendChild(table);
-    historyPanel.appendChild(frag);
-  }
-
-  // -------------------------
-  // Event handling (delegated)
-  // -------------------------
-  // Debounced handler that reads DOM and saves session
-  async function onInputChangeDebounced(){
-    const session = buildSessionFromDom();
-    await saveSessionDebounced(session);
-  }
-
-  function initEventHandlers(){
-    // Week input
-    weekInputEl.addEventListener('change', async (e) => {
-      const wk = Number(e.target.value) || 1;
-      currentWeek = Math.max(1, Math.min(12, wk));
-      await saveWeekPref(currentWeek);
-      // switch block if needed
-      const newBlock = BLOCKS.find(b => (b.weeks && b.weeks[0] <= currentWeek && b.weeks[1] >= currentWeek)) || BLOCKS[0];
-      if(newBlock.id !== currentBlock.id){
-        currentBlock = newBlock;
-        currentDay = currentBlock.days.find(d=>!d.rest) || currentBlock.days[0];
-        blockTagEl.textContent = currentBlock.label;
-        renderTabs();
-        await loadAndRenderSession(currentBlock.id, currentDay.id, currentDate);
-      }
-      blockTagEl.textContent = currentBlock.label;
-    });
-
-    // date input
-    dateInputEl.addEventListener('change', async (e) => {
-      currentDate = fmtDate(e.target.value);
-      await loadAndRenderSession(currentBlock.id, currentDay.id, currentDate);
-    });
-
-    todayBtn.addEventListener('click', async ()=>{
-      currentDate = todayISO();
-      dateInputEl.value = currentDate;
-      await loadAndRenderSession(currentBlock.id, currentDay.id, currentDate);
-    });
-
-    // tabs click (delegation)
-    dayTabsEl.addEventListener('click', async (ev) => {
-      const btn = ev.target.closest('.tab');
-      if(!btn) return;
-      const dayId = btn.dataset.dayId;
-      const dayDef = currentBlock.days.find(d=>d.id===dayId);
-      if(!dayDef) return;
-      currentDay = dayDef;
-      // refresh active style
-      $$$('.tab', dayTabsEl).forEach(t => t.classList.toggle('active', t.dataset.dayId === dayId));
-      await loadAndRenderSession(currentBlock.id, currentDay.id, currentDate);
-    });
-
-    // delegated change for inputs in dayContent (weights, reps, notes)
-    dayContentEl.addEventListener('input', (ev) => {
-      const target = ev.target;
-      // identify inputs that carry dataset.ex and dataset.set
-      if(target && target.dataset && target.dataset.ex !== undefined){
-        // deferred save
-        onInputChangeDebounced();
-      }
-    });
-
-    // history toggle
-    historyToggleBtn.addEventListener('click', ()=>{
-      historyView.style.display = historyView.style.display === 'none' ? 'block' : 'none';
-      if(historyView.style.display === 'block'){
-        // populate selects and load
-        histBlockSelect.innerHTML = '';
-        BLOCKS.forEach(b => {
-          const opt = document.createElement('option'); opt.value = b.id; opt.textContent = b.label; histBlockSelect.appendChild(opt);
-        });
-        histBlockSelect.value = currentBlock.id;
-        populateHistDayOptions(currentBlock.id);
-        histDaySelect.value = currentDay.id;
-        renderHistory(currentBlock.id, currentDay.id);
-      }
-    });
-
-    histBlockSelect.addEventListener('change', (e) => {
-      populateHistDayOptions(e.target.value);
-    });
-    histLoadBtn.addEventListener('click', ()=>{
-      renderHistory(histBlockSelect.value, histDaySelect.value);
-    });
-  }
-
-  function populateHistDayOptions(blockId){
-    histDaySelect.innerHTML = '';
-    const block = BLOCKS.find(b=>b.id===blockId) || BLOCKS[0];
-    block.days.forEach(d => {
-      const opt = document.createElement('option'); opt.value = d.id; opt.textContent = d.name; histDaySelect.appendChild(opt);
-    });
-  }
-
-  // -------------------------
-  // Initialization
-  // -------------------------
-  async function init(){
-    // load week pref
-    const wk = await loadWeekPref();
-    if(wk && Number.isFinite(wk) && wk>=1 && wk<=12) currentWeek = wk;
-    weekInputEl.value = currentWeek;
-    // determine block from week
-    currentBlock = BLOCKS.find(b=> (b.weeks && b.weeks[0] <= currentWeek && b.weeks[1] >= currentWeek)) || BLOCKS[0];
-    blockTagEl.textContent = currentBlock.label;
-    // set date
-    currentDate = todayISO();
-    dateInputEl.value = currentDate;
-    // render tabs and first load
-    renderTabs();
-    await loadAndRenderSession(currentBlock.id, currentDay.id, currentDate);
-    initEventHandlers();
-
-    // If StorageBackend has no persistent storage, show small banner
-    if(!StorageBackend._hasWindowStorage && !StorageBackend._hasLocalStorage){
-      const warn = document.createElement('div');
-      warn.style.cssText = 'background:#3A2020;color:#F2A0A0;padding:10px 20px;font-size:12px;font-family:JetBrains Mono, monospace;';
-      warn.textContent = 'Persistent storage unavailable — session data will not survive page reloads.';
-      document.body.insertBefore(warn, document.getElementById('app'));
+    const record = session[exId];
+    const sets = getSets(record).filter(s=>s.weight!=='' || s.reps!=='');
+    if(sets.length>0){
+      const variant = getVariant(record);
+      groups[variant].push({date, sets:getSets(record)});
     }
   }
 
-  // Run init
-  init().catch(e=>{ console.error('Init error', e); });
+  const order = ['main','sub1','sub2'];
+  const nonEmpty = order.filter(v=>groups[v].length>0);
 
-  // Expose some functions for console debugging (optional)
-  window._trainingLog = {
-    StorageBackend, BLOCKS, loadSession, saveSessionImmediate, loadAndRenderSession, renderHistory
-  };
+  if(nonEmpty.length===0){
+    container.innerHTML = '<div class="history-empty">No logged sessions yet for this exercise.</div>';
+    return;
+  }
 
+  let html = '';
+  nonEmpty.forEach(variant=>{
+    const label = variantName(ex,variant) + (variant!=='main' ? ' <span class="sub-flag">(substitution)</span>' : '');
+    html += '<h3 class="history-group-title">'+label+'</h3>';
+    html += buildHistoryChart(groups[variant]) + buildHistoryTable(groups[variant]);
+  });
+  container.innerHTML = html;
+}
+
+function buildHistoryChart(entries){
+  const points = entries
+    .map((en,i)=>({i, w: parseFloat((en.sets[0]||{}).weight)}))
+    .filter(p=>!isNaN(p.w));
+  if(points.length===0) return '';
+
+  const width = Math.max(360, entries.length*70);
+  const height = 160;
+  const padL = 36, padR = 20, padT = 20, padB = 30;
+  const plotW = width - padL - padR;
+  const plotH = height - padT - padB;
+
+  const minW = Math.min(...points.map(p=>p.w));
+  const maxW = Math.max(...points.map(p=>p.w));
+  const range = (maxW - minW) || 1;
+
+  const xFor = i => padL + (entries.length<=1 ? plotW/2 : (i/(entries.length-1))*plotW);
+  const yFor = w => padT + plotH - ((w - minW)/range)*plotH;
+
+  const linePath = points.map((p,idx)=>(idx===0?'M':'L')+xFor(p.i)+','+yFor(p.w)).join(' ');
+
+  let svg = '<div class="history-chart"><svg viewBox="0 0 '+width+' '+height+'" width="'+width+'" height="'+height+'">';
+  svg += '<path class="line" d="'+linePath+'"/>';
+  points.forEach(p=>{
+    const x = xFor(p.i), y = yFor(p.w);
+    svg += '<circle class="point" cx="'+x+'" cy="'+y+'" r="3.5"/>';
+    svg += '<text class="value-label" x="'+x+'" y="'+(y-8)+'" text-anchor="middle">'+p.w+'</text>';
+  });
+  entries.forEach((en,i)=>{
+    svg += '<text class="axis-label" x="'+xFor(i)+'" y="'+(height-8)+'" text-anchor="middle">'+fmtDate(en.date)+'</text>';
+  });
+  svg += '</svg></div>';
+  return svg;
+}
+
+function buildHistoryTable(entries){
+  const maxSets = Math.max(...entries.map(en=>en.sets.length));
+  let html = '<table class="history-table"><thead><tr><th>Date</th>';
+  for(let i=0;i<maxSets;i++) html += '<th>Set '+(i+1)+'</th>';
+  html += '</tr></thead><tbody>';
+  entries.forEach(en=>{
+    html += '<tr><td>'+fmtDate(en.date)+'</td>';
+    for(let i=0;i<maxSets;i++){
+      const s = en.sets[i];
+      html += '<td>'+(s && (s.weight!=='' || s.reps!=='') ? (s.weight||'—')+' × '+(s.reps||'—') : '—')+'</td>';
+    }
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+if(!hasStorage){
+  const warn = document.createElement('div');
+  warn.style.cssText = 'background:#3A2020;color:#F2A0A0;padding:10px 20px;font-size:12px;font-family:JetBrains Mono, monospace;';
+  warn.textContent = 'Storage unavailable in this preview — logged sets will not be saved between sessions.';
+  document.body.insertBefore(warn, document.getElementById('app'));
+}
+
+(async function init(){
+  const savedWeek = await loadWeekPref();
+  if(savedWeek && savedWeek>=1 && savedWeek<=12){
+    currentWeek = savedWeek;
+    currentBlock = blockForWeek(currentWeek);
+    currentDayId = currentBlock.days.find(d=>!d.rest).id;
+  }
+  weekInputEl.value = currentWeek;
+  renderDay();
 })();
 </script>
 </body>
