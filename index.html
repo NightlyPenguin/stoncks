@@ -1,1 +1,258 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GREMLIN.EXE — left unsupervised</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2b0a4a;--pink:#ff2e93;--yel:#e6ff00;--teal:#00ffd0;--ink:#150524;--paper:#fff3d6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a0630;--paper:#ffe9b8}}
+:root[data-theme="dark"]{--bg:#1a0630;--paper:#ffe9b8}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--paper);font-family:"Permanent Marker","Comic Sans MS",cursive;overflow-x:hidden;
+background-image:radial-gradient(var(--pink) 1.5px,transparent 1.5px);background-size:28px 28px;cursor:crosshair}
+body.shake{animation:shake .15s infinite}
+body.inv{filter:invert(1) hue-rotate(180deg)}
+body.chaos main{animation:spin 6s linear infinite}
+body.chaos h1 span{animation-duration:.3s!important}
+@keyframes shake{0%{transform:translate(4px,-3px)}25%{transform:translate(-5px,2px)}50%{transform:translate(3px,5px)}75%{transform:translate(-4px,-4px)}100%{transform:translate(2px,3px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes wob{0%,100%{transform:rotate(var(--r)) translateY(0)}50%{transform:rotate(calc(var(--r)*-1)) translateY(-14px)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+h1{font-family:"Rubik Mono One",Impact,sans-serif;font-size:clamp(2.6rem,13vw,8rem);line-height:.95;margin:.3em 0;color:var(--yel);text-shadow:5px 5px 0 var(--pink),10px 10px 0 var(--ink);word-break:break-all}
+h1 span{display:inline-block;animation:wob 1.4s ease-in-out infinite}
+.sub{font-size:1.4rem;background:var(--pink);color:var(--ink);display:inline-block;padding:6px 14px;transform:rotate(-2deg);box-shadow:6px 6px 0 var(--ink)}
+.bar{overflow:hidden;white-space:nowrap;background:var(--yel);color:var(--ink);border-block:4px solid var(--ink);margin:24px -16px;font-family:"Rubik Mono One",Impact,sans-serif}
+.bar div{display:inline-block;width:max-content;animation:slide 14s linear infinite;padding:8px 0}
+section{background:var(--ink);border:4px solid var(--teal);padding:20px;margin:34px 0;box-shadow:10px 10px 0 var(--pink)}
+section:nth-of-type(even){transform:rotate(1.2deg);border-color:var(--yel)}
+section:nth-of-type(odd){transform:rotate(-1deg)}
+h2{font-family:"Rubik Mono One",Impact,sans-serif;font-size:1.5rem;color:var(--teal);margin:0 0 10px}
+p{font-size:1.2rem;line-height:1.5;margin:.5em 0}
+button{font:inherit;font-size:1.3rem;background:var(--teal);color:var(--ink);border:4px solid var(--ink);padding:10px 18px;box-shadow:5px 5px 0 var(--pink);cursor:pointer}
+button:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--pink)}
+button:focus-visible{outline:4px dashed var(--yel);outline-offset:4px}
+#oracle{min-height:3.6em;color:var(--yel);font-size:1.5rem;margin-top:14px}
+#runner{position:relative;height:140px;border:3px dashed var(--pink);margin-top:12px}
+#runner button{position:absolute;left:20px;top:40px;transition:left .12s,top .12s}
+#meter{height:34px;border:4px solid var(--paper);margin:12px 0;background:var(--ink)}
+#fill{height:100%;width:0;background:repeating-linear-gradient(45deg,var(--pink) 0 12px,var(--yel) 12px 24px)}
+#eyes{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.eye{width:64px;height:64px;border-radius:50%;background:#fff;border:4px solid var(--ink);position:relative}
+.eye i{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--ink);left:17px;top:17px}
+.cookie{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:420px;background:var(--yel);color:var(--ink);border:4px solid var(--ink);padding:12px;z-index:9;box-shadow:6px 6px 0 var(--pink);transform:rotate(1.5deg)}
+.cookie p{font-size:1rem;margin:0 0 8px}
+.cookie button{font-size:1rem;padding:6px 10px;margin-right:6px;background:var(--pink)}
+.pop{position:fixed;pointer-events:none;font-size:2.4rem;z-index:8;animation:pop 1s ease-out forwards}
+@keyframes pop{to{transform:translateY(-120px) rotate(var(--rr));opacity:0}}
+footer{text-align:center;font-size:1rem;opacity:.8}
+html{animation:hue 14s linear infinite}
+@keyframes hue{to{filter:hue-rotate(360deg)}}
+main{position:relative;z-index:1}
+h1,h2{filter:url(#melt)}
+section{animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{50%{scale:1.025}}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:6;background:radial-gradient(circle,transparent 40%,rgba(0,0,0,.7));animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
+.dr{position:fixed;left:0;top:0;z-index:0;opacity:.3;pointer-events:none;animation:drift linear infinite}
+@keyframes drift{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-25vh) rotate(720deg)}}
+.wh{position:fixed;z-index:7;pointer-events:none;color:var(--teal);font-size:1.4rem;opacity:0;animation:wh 3.5s ease-in-out forwards;mix-blend-mode:difference}
+@keyframes wh{50%{opacity:.95}100%{opacity:0;transform:scale(1.6) skewX(20deg)}}
+#snd{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:8px;z-index:10;font-size:1rem;padding:6px 10px;background:var(--yel)}
+h1{animation:tear 3s infinite}
+@keyframes tear{0%,91%,100%{transform:none}93%{transform:translateX(-14px) skewX(12deg)}96%{transform:translateX(16px) skewX(-14deg)}}
+#san{position:fixed;left:8px;top:calc(8px + env(safe-area-inset-top,0px));z-index:10;background:var(--ink);color:var(--teal);border:3px solid var(--teal);padding:4px 8px;font-size:1rem}
+.s1 p{letter-spacing:.08em}.s1 h2{display:inline-block;transform:skewX(-8deg)}
+.s2 section{animation:breathe 5s ease-in-out infinite,tilt 1.5s ease-in-out infinite alternate}
+@keyframes tilt{from{rotate:-4deg}to{rotate:4deg}}
+.s3 p{filter:blur(1px);text-shadow:3px 0 #f00,-3px 0 #0ff}.s3 button{rotate:8deg}
+body.chaos section{animation:spin 2.5s linear infinite}
+html:has(body.chaos){animation-duration:1.5s}
+.win{position:fixed;z-index:20;width:min(280px,80vw);background:var(--paper);color:var(--ink);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--pink)}
+.win header{background:var(--pink);display:flex;justify-content:space-between;padding:4px 8px;font-family:"Rubik Mono One",Impact,sans-serif;font-size:.8rem;cursor:pointer}
+.win p{font-size:1rem;padding:0 10px;color:var(--ink)}
+.win button{font-size:.9rem;padding:4px 8px;margin:0 10px 10px 0}
+#end{position:fixed;inset:0;z-index:30;display:grid;place-items:center;text-align:center;font-family:"Rubik Mono One",Impact,sans-serif;font-size:clamp(2rem,10vw,6rem);color:var(--yel);background:rgba(0,0,0,.65);pointer-events:none;animation:endf .2s steps(2) infinite;text-shadow:6px 6px 0 var(--pink)}
+@keyframes endf{50%{color:var(--pink);transform:scale(1.04) skewX(6deg)}}
+body.d3{perspective:900px}
+body.d3 main{transform-style:preserve-3d;animation:warp 7s ease-in-out infinite}
+@keyframes warp{0%,100%{transform:rotateY(-25deg) rotateX(10deg)}50%{transform:rotateY(25deg) rotateX(-12deg) scale(.9)}}
+body.d3 section:nth-of-type(odd){translate:0 0 90px}
+body.d3 section:nth-of-type(even){translate:0 0 -90px}
+#js{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:#000;font-size:min(80vw,80vh);pointer-events:none;animation:jsz .7s ease-out forwards}
+@keyframes jsz{from{transform:scale(.2)}to{transform:scale(1.4)}}
+#bsod{position:fixed;inset:0;z-index:50;background:#0000aa;font-family:monospace;padding:6vw;font-size:clamp(.9rem,3vw,1.4rem);cursor:pointer}
+#bsod p{color:#fff;font-size:inherit}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="melt"><feTurbulence id="ft" type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="2"/><feDisplacementMap in="SourceGraphic" scale="24"/></filter></svg>
+<button id="snd">🔊 sound: click anywhere</button>
+<div class="cookie" id="ck"><p>We use cookies. By cookies we mean one (1) raccoon. He is inside your computer now.</p><button id="a">Accept raccoon</button><button id="b">Accept two raccoons</button></div>
+<main>
+<div class="sub">welcome. please do not feed the website.</div>
+<h1 id="t">GREMLIN.EXE</h1>
+<div class="bar"><div id="mq"></div></div>
+
+<section>
+<h2>The Pigeon Oracle</h2>
+<p>He has seen things behind the vending machine. Ask nothing. Press the button.</p>
+<button id="orc">Consult pigeon</button>
+<div id="oracle">…</div>
+</section>
+
+<section>
+<h2>Scream Meter</h2>
+<p>Hold the button. Release when you feel something. Screams so far: <b id="sc">0</b></p>
+<div id="meter"><div id="fill"></div></div>
+<button id="scr">HOLD TO SCREAM</button>
+</section>
+
+<section>
+<h2>Catch the Button</h2>
+<p>It says “free money.” It is lying. Catch it anyway.</p>
+<div id="runner"><button id="run">free money</button></div>
+<p id="rmsg"></p>
+</section>
+
+<section>
+<h2>They Are Watching</h2>
+<p>Move your cursor. They love it. They love you.</p>
+<div id="eyes"></div>
+</section>
+
+<section>
+<h2>Do Not Press</h2>
+<p>Seriously. There is a sign. The sign is this sentence.</p>
+<button id="dnp">DO NOT PRESS</button>
+</section>
+
+<div id="san">sanity: <b id="sv">100</b>% (esc = mercy)</div>
+<section>
+<h2>The Final Button</h2>
+<p>Everything so far was a warm-up. This one has no label. It has a hole.</p>
+<button id="fin">◉</button>
+</section>
+<footer>© whenever. no refunds. the gremlin has your sandwich.</footer>
+</main>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var rnd=function(a){return a[Math.floor(Math.random()*a.length)]};
+// ---- audio: all synthesized, no files ----
+var AC=null,master=null,muted=false,so=null,sg=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.5;master.connect(AC.destination);drone()}catch(e){return null}}if(AC.state==="suspended")AC.resume();return AC}
+function tone(f,d,type,v,slide){if(!ac()||muted)return;var o=AC.createOscillator(),g=AC.createGain(),t0=AC.currentTime;o.type=type||"square";o.frequency.setValueAtTime(f,t0);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(20,slide),t0+d);g.gain.setValueAtTime(v||.15,t0);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d)}
+function noise(d,v){if(!ac()||muted)return;var n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0);for(var i=0;i<n;i++)a[i]=Math.random()*2-1;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=b;g.gain.setValueAtTime(v||.2,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);s.connect(g);g.connect(master);s.start()}
+function drone(){var f=AC.createBiquadFilter(),g=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();f.type="lowpass";f.frequency.value=260;g.gain.value=.09;[55,58.3,82.4].forEach(function(hz){var o=AC.createOscillator();o.type="sawtooth";o.frequency.value=hz;o.connect(f);o.start()});l.frequency.value=.13;lg.gain.value=180;l.connect(lg);lg.connect(f.frequency);l.start();f.connect(g);g.connect(master);
+setInterval(function(){if(Math.random()<.7)tone(200+Math.random()*1600,.2+Math.random()*.8,rnd(["sine","triangle","square"]),.07,50+Math.random()*2000)},2200)}
+function coo(){tone(380,.2,"triangle",.25,220);setTimeout(function(){tone(340,.2,"triangle",.25,200)},210);setTimeout(function(){tone(300,.4,"triangle",.25,120)},420)}
+function boing(){tone(150,.35,"sine",.3,900);noise(.05,.1)}
+function chaosSfx(){tone(1200,1,"sawtooth",.2,30);noise(.6,.3)}
+function sOn(){if(!ac()||muted||so)return;so=AC.createOscillator();sg=AC.createGain();so.type="sawtooth";so.frequency.value=300;sg.gain.value=.12;so.connect(sg);sg.connect(master);so.start()}
+function sSet(l){if(so)so.frequency.setTargetAtTime(300+l*14+Math.random()*60,AC.currentTime,.02)}
+function sOff(){if(so){var o=so;sg.gain.setTargetAtTime(0,AC.currentTime,.05);so=null;setTimeout(function(){o.stop()},250)}}
+$("snd").onclick=function(e){e.stopPropagation();ac();muted=!muted;if(master)master.gain.value=muted?0:.5;$("snd").textContent=muted?"🔇 silence (he waits)":"🔊 screaming"};
+// title letters
+var t=$("t"),txt=t.textContent;t.textContent="";
+txt.split("").forEach(function(c,i){var s=document.createElement("span");s.textContent=c;s.style.setProperty("--r",(Math.random()*16-8)+"deg");s.style.animationDelay=(-Math.random()*1.4)+"s";t.appendChild(s)});
+// marquee
+var m="🦝 NOW WITH 40% MORE TEETH 🦝 CHEESE IS A SOCIAL CONSTRUCT 🦝 THE WIFI IS HAUNTED 🦝 ";
+$("mq").textContent=m.repeat(8);
+// cookies
+$("a").onclick=function(){$("ck").remove();alert("He is thrilled.")};
+$("b").onclick=function(){$("ck").remove();alert("There are now two. They have formed a union.")};
+// oracle
+var P=["You will find a shoe. Do not ask whose.","The moon owes you $14. Collect it.","Bread is a doorway. Mind the crust.","Someone is thinking about you. It’s me. Stop.","Eat the chip off the ground. Become powerful.","Your enemies are just ducks in suits.","Tuesday is lying to everyone.","Cough twice at a stranger. Fate will follow.","The soup knows what you did.","Build a small hat for a large problem."];
+$("orc").onclick=function(){coo();$("oracle").textContent="🕊️ "+rnd(P);pop(innerWidth/2,innerHeight/2)};
+// scream
+var n=0,h=null,lvl=0,sc=$("scr");
+function up(){sSet(Math.min(100,lvl+2.5));n++;lvl=Math.min(100,lvl+2.5);$("sc").textContent=n;$("fill").style.width=lvl+"%";
+document.body.classList.toggle("shake",lvl>40);document.body.classList.toggle("inv",lvl>=100);
+if(lvl>=100){$("fill").style.width="100%";t.style.color="var(--teal)"}}
+function start(e){e.preventDefault();if(h)return;sOn();h=setInterval(up,50)}
+function stop(){sOff();clearInterval(h);h=null;document.body.classList.remove("shake");setTimeout(function(){lvl=0;$("fill").style.width="0";document.body.classList.remove("inv");t.style.color=""},900)}
+["mousedown","touchstart"].forEach(function(v){sc.addEventListener(v,start)});
+["mouseup","mouseleave","touchend","touchcancel"].forEach(function(v){sc.addEventListener(v,stop)});
+// runaway button
+var r=$("run"),box=$("runner"),dodges=0,L=["nope","too slow","lol","skill issue","I have a family","no.","💨"];
+function flee(){var w=box.clientWidth-r.offsetWidth-8,hh=box.clientHeight-r.offsetHeight-8;
+r.style.left=Math.max(0,Math.random()*w)+"px";r.style.top=Math.max(0,Math.random()*hh)+"px";dodges++;boing();
+$("rmsg").textContent="Dodges: "+dodges+". "+rnd(L);r.textContent=rnd(["free money","free money?","FREE.","money"])}
+r.addEventListener("mouseenter",flee);r.addEventListener("touchstart",function(e){e.preventDefault();flee()});
+r.onclick=function(){$("rmsg").textContent="You caught it. There was never any money. There is only the chase."};
+// eyes
+var E=$("eyes");for(var i=0;i<10;i++){var e=document.createElement("div");e.className="eye";e.innerHTML="<i></i>";E.appendChild(e)}
+function look(x,y){E.querySelectorAll(".eye").forEach(function(el){var b=el.getBoundingClientRect(),cx=b.left+32,cy=b.top+32,a=Math.atan2(y-cy,x-cx);
+var p=el.firstChild;p.style.left=(17+Math.cos(a)*14)+"px";p.style.top=(17+Math.sin(a)*14)+"px"})}
+document.addEventListener("mousemove",function(e){look(e.clientX,e.clientY)});
+document.addEventListener("touchmove",function(e){look(e.touches[0].clientX,e.touches[0].clientY)});
+// chaos
+$("dnp").onclick=function(){chaosSfx();document.body.classList.toggle("chaos");$("dnp").textContent=document.body.classList.contains("chaos")?"WHY DID YOU":"DO NOT PRESS"};
+// click emoji
+function pop(x,y){var s=document.createElement("div");s.className="pop";s.textContent=rnd(["🦝","🕊️","🧀","👁️","🔥","🦷","🥫","🐀","💀"]);
+s.style.left=x+"px";s.style.top=y+"px";s.style.setProperty("--rr",(Math.random()*180-90)+"deg");document.body.appendChild(s);setTimeout(function(){s.remove()},1000)}
+document.addEventListener("click",function(e){pop(e.clientX,e.clientY);sanity(3);if(Math.random()<.12)win(e.clientX,e.clientY);tone(200+Math.random()*800,.12,rnd(["square","sawtooth","triangle"]),.12,50+Math.random()*1500)});
+// ---- fever dream ----
+var still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+// ---- ESCALATION ----
+var san=100,forced=false,sir=false,wc=0,idle=0,lt=0;
+function sanity(d){var b=document.body;san=Math.min(100,Math.max(0,san-d));$("sv").textContent=Math.round(san);
+b.classList.toggle("s1",san<75);b.classList.toggle("s2",san<50);b.classList.toggle("s3",san<25);
+if(san<25&&!sir){sir=true;tone(400,2,"sawtooth",.2,1400)}if(san>=25)sir=false;
+if(san<=0&&!b.classList.contains("chaos")){forced=true;$("dnp").click()}
+if(forced&&san>35&&b.classList.contains("chaos")){forced=false;$("dnp").click()}}
+setInterval(function(){sanity(-.7)},1000);
+function wh(t,x,y){var w=document.createElement("div");w.className="wh";w.textContent=t;w.style.left=x+"px";w.style.top=y+"px";document.body.appendChild(w);setTimeout(function(){w.remove()},3600)}
+var WM=["YOU HAVE WON A SMALL CAT","your pigeon is ready for pickup","VIRUS DETECTED: it’s just vibes","Would you like to hear about the carpet?","the gremlin is typing…","FREE ANXIETY (limited time)","you have 1 new haunting","error: sandwich not found"];
+function win(x,y){if(wc>=14)return;wc++;var w=document.createElement("div");w.className="win";
+w.style.left=Math.min(innerWidth-290,Math.max(0,x))+"px";w.style.top=Math.min(innerHeight-160,Math.max(0,y))+"px";
+w.innerHTML="<header><span>"+rnd(["ALERT","WARNING","hello","CONGRATS","mmm"])+".exe</span><span>x</span></header><p>"+rnd(WM)+"</p><button>OK</button><button>Also OK</button>";
+document.body.appendChild(w);tone(523,.15,"square",.1);setTimeout(function(){tone(554,.4,"square",.1)},150);
+function kill(e){e.stopPropagation();w.remove();wc--;if(Math.random()<.6){win(Math.random()*innerWidth,Math.random()*innerHeight);win(Math.random()*innerWidth,Math.random()*innerHeight)}}
+w.querySelectorAll("button").forEach(function(b){b.onclick=kill});w.firstChild.lastChild.onclick=kill}
+setInterval(function(){if(san<60)win(Math.random()*innerWidth,Math.random()*innerHeight)},5000);
+setTimeout(function(){win(innerWidth*.5,innerHeight*.3)},15000);
+document.addEventListener("contextmenu",function(e){e.preventDefault();win(e.clientX,e.clientY);sanity(8)});
+document.documentElement.addEventListener("mouseleave",function(){wh("where are you going",innerWidth/3,innerHeight/2);tone(90,.8,"sawtooth",.2,40)});
+document.addEventListener("mousemove",function(e){idle=0;var n=Date.now();if(n-lt<90||still)return;lt=n;pop(e.clientX,e.clientY)});
+setInterval(function(){idle++;if(idle===10){wh("are you still alive",innerWidth/4,innerHeight/3);tone(60,1.5,"sine",.3,40)}},1000);
+setInterval(function(){document.title=document.hidden?"he is waiting…":rnd(["GREMLIN.EXE","G̷R̸E̶M̵L̴I̸N̷","help me","🦝🦝🦝","DO NOT LOOK","…"])},1200);
+var ZW=["THE CARPET","blood?","mmmm","help","soup","HE KNOWS","pigeon","teeth","eat"];
+setInterval(function(){if(san>70)return;var ps=document.querySelectorAll("main p"),p=ps[Math.floor(Math.random()*ps.length)];if(!p||p.querySelector("b"))return;var w=p.textContent.split(" ");w[Math.floor(Math.random()*w.length)]=rnd(ZW);p.textContent=w.join(" ")},1500);
+(function hb(){setTimeout(function(){if(AC&&!muted&&san<80){tone(55,.15,"sine",.5,30);setTimeout(function(){tone(50,.15,"sine",.4,30)},160)}hb()},300+san*9)})();
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){document.querySelectorAll(".win").forEach(function(w){w.remove()});wc=0;sanity(-30);return}
+if(e.key.length===1){var s=document.createElement("div");s.className="pop";s.style.cssText+="font-size:8rem;font-family:Impact,sans-serif;color:var(--yel)";s.textContent=e.key.toUpperCase();s.style.left=Math.random()*80+"vw";s.style.top=Math.random()*70+"vh";s.style.setProperty("--rr",(Math.random()*180-90)+"deg");document.body.appendChild(s);setTimeout(function(){s.remove()},1000);tone(100+e.key.charCodeAt(0)*8,.15,"sawtooth",.1,50)}});
+// ---- 3 MORE: warp, crash, jump-scare ----
+var warp=false,crashing=false;
+setInterval(function(){document.body.classList.toggle("d3",warp||san<40)},500);
+function scare(){if(still)return;var o=document.createElement("div");o.id="js";o.textContent=rnd(["👁️","🦷","🦝"]);document.body.appendChild(o);noise(.7,.6);tone(1800,.7,"sawtooth",.35,200);tone(2400,.7,"square",.2,100);setTimeout(function(){o.remove()},700)}
+(function sl(){setTimeout(function(){if(san<85)scare();sl()},25000+Math.random()*30000)})();
+function crash(){if(crashing)return;crashing=true;var b=document.createElement("div");b.id="bsod";
+b.innerHTML="<p style='font-size:4rem;margin:0'>:(</p><p>GREMLIN.EXE has stopped being a website.</p><p>ERROR: PIGEON_OVERFLOW_0xDEADBEAK</p><p id='bp'>Collecting regret… 0% complete</p><p>(click to pretend this didn’t happen)</p>";
+document.body.appendChild(b);tone(600,1.2,"sawtooth",.3,40);noise(.4,.3);var pc=0,iv=setInterval(function(){pc=Math.min(100,pc+Math.random()*9);$("bp").textContent="Collecting regret… "+Math.floor(pc)+"% complete";if(pc>=100)done()},250);
+function done(){clearInterval(iv);if(!b.parentNode)return;b.remove();crashing=false;noise(.5,.4);wh("just kidding",innerWidth/3,innerHeight/2);sanity(-20)}
+b.onclick=done}
+setTimeout(crash,50000);
+$("fin").addEventListener("click",function(){setTimeout(crash,7200)});
+[["WARP REALITY",function(){warp=!warp;tone(80,.8,"sawtooth",.3,600)}],["CRASH IT",crash],["BOO",scare]].forEach(function(x){var b=document.createElement("button");b.textContent=x[0];b.style.margin="10px 0 0 10px";b.onclick=function(e){e.stopPropagation();x[1]()};$("fin").parentNode.appendChild(b)});
+$("fin").onclick=function(e){e.stopPropagation();sanity(100);chaosSfx();for(var i=0;i<6;i++)win(Math.random()*innerWidth,Math.random()*innerHeight);
+var o=document.createElement("div");o.id="end";o.textContent="YOU ARE THE WEBSITE NOW";document.body.appendChild(o);
+var q=setInterval(function(){tone(rnd([110,165,196,220,262,330,392,440,523])*rnd([1,2,.5]),.12,"square",.1)},90);setTimeout(function(){clearInterval(q);o.remove()},7000)};
+if(!still){
+var ft=$("ft"),ph=0;(function f(){ph+=.012;ft.setAttribute("baseFrequency",(.008+Math.sin(ph)*.006)+" "+(.02+Math.cos(ph*1.3)*.012));requestAnimationFrame(f)})();
+for(var k=0;k<16;k++){var d=document.createElement("div");d.className="dr";d.textContent=rnd(["👁️","🦷","🕊️","🦝","🧀","🫠","🥫"]);d.style.left=Math.random()*95+"vw";d.style.fontSize=(2+Math.random()*6)+"rem";d.style.animationDuration=(8+Math.random()*16)+"s";d.style.animationDelay=(-Math.random()*20)+"s";document.body.appendChild(d)}
+var W=["he is behind the fridge","you were here before","the soup is warm","blink","it’s inside the wifi","you left the stove on in 2009","do not look at the pigeon","the carpet is breathing","you are the website now","mmmmmm"];
+setInterval(function(){var w=document.createElement("div");w.className="wh";w.textContent=rnd(W);w.style.left=Math.random()*60+"vw";w.style.top=Math.random()*85+"vh";document.body.appendChild(w);setTimeout(function(){w.remove()},3600)},2600);
+(function glitch(){setTimeout(function(){document.body.classList.add("inv");noise(.12,.25);setTimeout(function(){if(!so)document.body.classList.remove("inv")},110);glitch()},4000+Math.random()*6000)})();
+}
+})();
+</script>
+</body>
+</html>
