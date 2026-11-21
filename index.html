@@ -1,278 +1,177 @@
 <!DOCTYPE html>
-<html lang="chaos">
+<html lang="screaming">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE EVENT HORIZON</title>
+    <title>THE SCREAM</title>
     <style>
         :root {
-            --neon-blue: #00f3ff;
-            --deep-purple: #d500f9;
-            --acid-green: #ccff00;
-            --void-black: #050505;
-            --text-speed: 2s;
+            --aggressive-white: #ffffff;
+            --vibrant-green: #ccff00;
+            --deep-red: #ff003c;
+            --shrink-speed: 0.05s;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
+        body {
+            background-color: var(--deep-red);
             height: 100vh;
-            background-color: var(--void-black);
-            overflow-x: hidden;
-            font-family: 'Courier New', Courier, monospace;
-            cursor: crosshair;
-            mix-blend-mode: exclusion;
+            width: 100vw;
+            margin: 0;
+            overflow: hidden; /* To contain the madness */
+            font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; /* The fancy shouting font */
+            cursor: none; /* Hide the normal cursor so we can reinvent it */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* THE BASE LAYER: A WebGL-like background */
-        #the-void {
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-conic-gradient(
-                var(--neon-blue) 0% 10%,
-                transparent 10% 20%
-            );
-            background-size: 100% 100%;
-            animation: spin 60s linear infinite;
-            z-index: -1;
-            filter: blur(50px);
-            opacity: 0.6;
-        }
-
-        /* THE UI LAYER: Floating and broken */
-        .container {
+        /* THE TEXT WALL */
+        .text-wall {
             position: relative;
-            z-index: 10;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            height: 100%;
-            padding: 2rem;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+            z-index: 2;
+            text-align: center;
+            mix-blend-mode: hard-light;
         }
 
         h1 {
-            font-size: 15vw;
-            text-transform: uppercase;
-            color: var(--acid-green);
+            font-size: 12vw;
             line-height: 0.8;
-            margin: 0;
-            white-space: nowrap;
-            mix-blend-mode: difference;
-            animation: jitter 0.1s steps(2) infinite;
-            text-shadow: 5px 5px 0px var(--deep-purple);
-        }
-
-        /* THE BUTTON: A button you can barely find */
-        .btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            border: 4px solid var(--neon-blue);
-            background: transparent;
-            color: var(--neon-blue);
-            padding: 1rem 3rem;
-            font-family: inherit;
+            color: var(--aggressive-white);
             text-transform: uppercase;
-            cursor: pointer;
-            z-index: 100;
-            transition: 0.2s;
-            mix-blend-mode: difference;
+            letter-spacing: -0.1em;
+            animation: breathe 4s ease-in-out infinite;
         }
 
-        .btn:hover {
-            background: var(--neon-blue);
-            color: var(--void-black);
-            font-style: italic;
-            letter-spacing: 10px;
+        /* THE SUBTEXT: The yammering */
+        .subtext {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            font-family: 'Verdana', sans-serif;
+            font-size: 1.5rem;
+            color: var(--vibrant-green);
+            text-transform: lowercase;
+            line-height: 1.2;
+            text-align: left;
+            max-width: 40vw;
         }
 
-        /* THE CURSOR: A trail of dust */
-        .cursor-dust {
+        /* THE OVERLAY: Glaring in your face */
+        .glare {
             position: fixed;
             top: 0;
             left: 0;
-            width: 10px;
-            height: 10px;
-            background: var(--acid-green);
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.1) 50%);
+            background-size: 200% 200%;
+            animation: pan 10s linear infinite;
+            z-index: 10;
             pointer-events: none;
-            z-index: 999;
-            mix-blend-mode: difference;
-            border-radius: 50%;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* THE TEXT BOX: Sticking out of nothing */
-        .info-box {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 300px;
-            border: 2px solid var(--deep-purple);
-            background: rgba(0,0,0,0.8);
-            padding: 20px;
-            overflow: hidden;
-            font-size: 0.8rem;
-            text-align: justify;
         }
 
         /* ANIMATIONS */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        @keyframes jitter {
-            0% { transform: translate(0,0); }
-            25% { transform: translate(2px, -2px); }
-            50% { transform: translate(-2px, 2px); }
-            75% { transform: translate(2px, 2px); }
-            100% { transform: translate(0,0); }
+        @keyframes pan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-100px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* THE GHOST ELEMENT */
-        .ghost {
-            position: fixed;
-            top: -100px;
-            left: -100px;
-            width: 300px;
-            height: 300px;
-            background: url('https://images.unsplash.com/photo-1531297461136-81c3f1078848?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
-            background-size: cover;
-            opacity: 0.4;
+        /* THE INTERACTIVE ELEMENT */
+        .ghost-text {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            font-size: 20rem;
+            color: var(--aggressive-white);
+            opacity: 0.3;
             z-index: 5;
-            mix-blend-mode: overlay;
-            animation: ghost-float 8s ease-in-out infinite;
+            user-select: none;
+            mix-blend-mode: exclusion;
         }
 
-        @keyframes ghost-float {
-            0% { transform: scale(1) translateX(0); }
-            50% { transform: scale(1.2) translateX(50px); }
-            100% { transform: scale(1) translateX(0); }
-        }
-
-        /* RESPONSIVE CHAOS */
+        /* MOBILE FIX */
         @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
-            h1 { font-size: 30vw; }
-            .btn { width: 80%; left: 10%; }
+            h1 { font-size: 20vw; }
+            .subtext { font-size: 1rem; left: 5%; width: 90%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="the-void"></div>
+    <div class="glare"></div>
     
-    <div class="ghost"></div>
-    
-    <div class="cursor-dust" id="dust"></div>
+    <!-- The giant whisper -->
+    <div class="ghost-text" id="ghost">SUBTEXT</div>
 
-    <div class="container">
-        <h1>THE<br>ENTITY</h1>
+    <div class="text-wall">
+        <h1>Is It<br>Enough?</h1>
         
-        <div class="info-box">
-            <p id="text-stream">Initializing...<br>Checking pixels...</p>
-        </div>
-
-        <button class="btn" id="trigger">
-            Scream
-        </button>
+        <div class="subtext" id="yammer">
+            panning the gradient... checking the pixels... 
+            is the serif font heavy enough? the green is too bright, 
+            isn't it? welcome to the glitch, welcome to the 
+            <span id="highlight">overload</span>.</div>
     </div>
 
     <script>
-        const root = document.documentElement;
-        const textStream = document.getElementById('text-stream');
-        const trigger = document.getElementById('trigger');
-        const dust = document.getElementById('dust');
-        const h1 = document.querySelector('h1');
+        const yammer = document.getElementById('yammer');
+        const highlight = document.getElementById('highlight');
+        const ghost = document.getElementById('ghost');
+        const body = document.body;
 
-        // 1. THE GLITCH LOOP
-        function unhinge() {
-            // Randomly flash the background color
-            root.style.setProperty('--neon-blue', 
-                Math.random() > 0.5 ? '#ff00ff' : '#00f3ff');
+        // 1. THE HYPER-LINKED HYPERTEXT
+        // Every 1.5 seconds, pick a random letter and make it huge
+        setInterval(() => {
+            const letters = yammer.innerText.split('');
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
             
-            // Randomly change the font size of the main title
-            const size = Math.floor(Math.random() * 50) + 10;
-            h1.style.fontSize = `${size}vw`;
+            const span = document.createElement('span');
+            span.innerText = randomLetter;
+            span.style.fontSize = Math.random() > 0.5 ? '2rem' : '0.8rem';
+            span.style.color = Math.random() > 0.5 ? 'var(--aggressive-white)' : 'var(--vibrant-green)';
             
-            // Randomly scramble the text content
-            textStream.innerText = Math.random().toString(36).substring(7).toUpperCase();
+            yammer.appendChild(span);
+        }, 1500);
+
+        // 2. THE GHOST CURSOR
+        // A giant, slow-moving word that you can barely see
+        const words = ["CHROME", "FIREFOX", "SARCASTIC", "VOID"];
+        
+        function cycleWords() {
+            ghost.innerText = words[Math.floor(Math.random() * words.length)];
+            ghost.style.left = `${Math.random() * 50 - 25}%`;
+            ghost.style.top = `${Math.random() * 50 - 25}%`;
+            ghost.style.opacity = Math.random() > 0.8 ? 0.8 : 0.2;
         }
 
-        // Run it every 200-500ms
-        setInterval(unhinge, 300);
+        setInterval(cycleWords, 400);
+        cycleWords(); // Initial pop
 
-        // 2. THE CURSOR DUST LOGIC
-        document.addEventListener('mousemove', (e) => {
-            dust.style.left = e.clientX + 'px';
-            dust.style.top = e.clientY + 'px';
-            
-            // Make the cursor trail feel heavy
-            dust.style.transform = `translateY(${Math.random() * 20 - 10}px)`;
-        });
-
-        // 3. THE "SCREAM" INTERACTION
-        trigger.addEventListener('click', () => {
-            // Reverse the layout
-            const container = document.querySelector('.container');
-            container.style.transform = container.style.transform === 'scaleX(-1)' ? 'scaleX(1)' : 'scaleX(-1)';
-            
-            // Change the button text to "Click Me"
-            const currentText = trigger.innerText;
-            trigger.innerText = currentText === 'SCREAM' ? 'CLICK ME' : 'SWEAR AT IT';
-
-            // Flash the whole screen white for 100ms
-            const flash = document.createElement('div');
-            flash.style.position = 'fixed';
-            flash.style.top = 0; flash.style.left = 0;
-            flash.style.width = '100%'; flash.style.height = '100%';
-            flash.style.background = 'white';
-            flash.style.mixBlendMode = 'difference';
-            flash.style.transition = 'opacity 0.2s';
-            flash.style.zIndex = 1000;
-            flash.style.pointerEvents = 'none';
-            
-            document.body.appendChild(flash);
+        // 3. THE "SCROLL" TRICK
+        // Even if you don't scroll, let's make it feel like it
+        window.addEventListener('wheel', (e) => {
+            const speed = e.deltaY * 2;
+            yammer.style.transform = `translateY(${speed}px)`;
+            body.style.filter = `blur(${speed * 0.01}px)`;
             
             setTimeout(() => {
-                flash.style.opacity = '0';
-                setTimeout(() => flash.remove(), 200);
-            }, 100);
+                yammer.style.transform = `translateY(0px)`;
+                body.style.filter = `blur(0px)`;
+            }, 50);
         });
 
-        // 4. THE DOM MANIPULATION (The "Alive" feel)
-        const elements = document.querySelectorAll('*');
-        
-        // Every 5 seconds, pick a random element and stretch it
-        setInterval(() => {
-            const el = elements[Math.floor(Math.random() * elements.length)];
-            if(el) {
-                el.style.transform = `skew(${Math.random() * 40}deg)`;
-                el.style.zIndex = Math.floor(Math.random() * 20);
-            }
-        }, 5000);
-
-        // 5. THE BLINK EFFECT
-        // Blink the body every 3 seconds. It's too fast to notice, but the brain registers it.
-        setInterval(() => {
-            document.body.style.opacity = document.body.style.opacity === '0' ? '1' : '0';
+        // 4. THE SLOW-ZOOM
+        // Just to make you feel claustrophobic
+        setTimeout(() => {
+            document.querySelector('.text-wall').style.transform = "scale(1.1)";
         }, 3000);
-
-        // Initial Jitter Burst
-        setTimeout(unhinge, 100);
 
     </script>
 </body>
