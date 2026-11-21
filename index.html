@@ -39,9 +39,14 @@
 </main>
 <script>
 const eye=document.getElementById('eye');
+let audioCtx;
+function getAudio(){return audioCtx||(audioCtx=new (window.AudioContext||window.webkitAudioContext)())}
+function beep(freq,time,duration,type='square',volume=.08){const ctx=getAudio(),o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,time);g.gain.setValueAtTime(volume,time);g.gain.exponentialRampToValueAtTime(.001,time+duration);o.connect(g).connect(ctx.destination);o.start(time);o.stop(time+duration)}
+function buttonNoise(kind){const ctx=getAudio(),t=ctx.currentTime;if(kind==='raccoon'){[110,146,196,293,440].forEach((n,i)=>beep(n,t+i*.07,.16,i%2?'sawtooth':'square',.07))}else if(kind==='gremlin'){[700,220,950,330,1200,80].forEach((n,i)=>beep(n,t+i*.055,.11,'sawtooth',.055))}else if(kind==='panic'){for(let i=0;i<18;i++)beep(90+Math.random()*1500,t+i*.035,.12,i%2?'square':'sawtooth',.07)}else{[330,660,990].forEach((n,i)=>beep(n,t+i*.08,.18,'triangle',.08))}}
 document.addEventListener('mousemove',e=>{eye.style.left=e.clientX+'px';eye.style.top=e.clientY+'px';const r=eye.getBoundingClientRect(),x=Math.max(25,Math.min(75,50+(e.clientX-r.left-31)/3)),y=Math.max(25,Math.min(75,50+(e.clientY-r.top-21)/3));eye.style.setProperty('--x',x+'%');eye.style.setProperty('--y',y+'%')});
-function release(emoji){for(let i=0;i<8;i++){let x=document.createElement('div');x.className='fly';x.textContent=emoji;x.style.left=Math.random()*90+'vw';x.style.top=(30+Math.random()*60)+'vh';x.style.animationDelay=Math.random()*-2+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),5000)}}
-function panicMode(){document.getElementById('main').classList.toggle('chaos');release('💥');release('🦷');document.title='AAAAAAAAAAAA';}
+function release(emoji){buttonNoise(emoji==='🦝'?'raccoon':'gremlin');for(let i=0;i<8;i++){let x=document.createElement('div');x.className='fly';x.textContent=emoji;x.style.left=Math.random()*90+'vw';x.style.top=(30+Math.random()*60)+'vh';x.style.animationDelay=Math.random()*-2+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),5000)}}
+function panicMode(){buttonNoise('panic');document.getElementById('main').classList.toggle('chaos');release('💥');release('🦷');document.title='AAAAAAAAAAAA';}
+document.querySelectorAll('.btn').forEach(btn=>btn.addEventListener('click',()=>{if(!btn.id)buttonNoise('tilt')}));
 </script>
 </body>
 </html>
