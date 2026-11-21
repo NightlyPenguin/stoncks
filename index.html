@@ -1,52 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FERAL.EXE</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GREMLIN.EXE — left unsupervised</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
-  :root{--acid:#c8ff00;--pink:#ff23b8;--ink:#090909;--paper:#f8f1d9;--blue:#00d9ff}
-  *{box-sizing:border-box} body{margin:0;overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:Impact,"Arial Black",sans-serif;cursor:crosshair}
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.2;background:repeating-linear-gradient(0deg,transparent 0 3px,#000 4px),repeating-linear-gradient(90deg,transparent 0 7px,#fff 8px);mix-blend-mode:overlay}
-  .ticker{position:fixed;z-index:50;top:0;left:0;width:100%;padding:8px;background:var(--acid);border-bottom:4px solid #000;white-space:nowrap;overflow:hidden;font-size:20px;letter-spacing:2px;transform:rotate(-1deg) scale(1.03)}
-  .ticker span{display:inline-block;animation:run 8s linear infinite}@keyframes run{to{transform:translateX(-50%)}}
-  main{min-height:100vh;padding:70px 5vw 60px;position:relative;background:radial-gradient(circle at 84% 20%,var(--pink),transparent 22%),radial-gradient(circle at 10% 70%,var(--blue),transparent 25%)}
-  .stamp{position:absolute;top:15%;right:8%;width:130px;height:130px;border:6px dotted #000;border-radius:50%;background:var(--acid);display:grid;place-items:center;text-align:center;font-size:23px;line-height:.9;transform:rotate(18deg);animation:wobble 1.1s infinite alternate}@keyframes wobble{to{transform:rotate(-19deg) scale(1.12)}}
-  h1{font-size:clamp(70px,17vw,260px);line-height:.68;letter-spacing:-8px;margin:10vh 0 30px;max-width:1100px;transform:rotate(-4deg);text-shadow:9px 9px 0 var(--pink),-6px -4px 0 var(--blue)}
-  h1 .tiny{font-size:.25em;display:block;letter-spacing:6px;transform:translateX(18%) rotate(7deg)}
-  .warning{max-width:760px;background:#000;color:var(--paper);padding:22px 28px;border:5px solid var(--acid);font-family:Arial,sans-serif;font-size:clamp(16px,2vw,24px);font-weight:bold;transform:rotate(2deg);box-shadow:15px 15px 0 var(--pink)}
-  .controls{display:flex;flex-wrap:wrap;gap:14px;margin:55px 0 15px}.btn{border:4px solid #000;background:var(--acid);padding:17px 24px;font:inherit;font-size:24px;letter-spacing:1px;box-shadow:7px 7px 0 #000;cursor:pointer;transition:.08s}.btn:hover{transform:translate(5px,5px) rotate(3deg);box-shadow:2px 2px 0 #000;background:var(--pink)}
-  #panic{background:var(--pink)}
-  .wall{position:relative;margin-top:70px;min-height:550px;border:7px solid #000;background:#fff;padding:25px;overflow:hidden;box-shadow:20px 20px 0 var(--blue)}
-  .wall h2{margin:0;font-size:clamp(35px,7vw,90px);transform:rotate(2deg)}
-  .note{position:absolute;width:170px;min-height:110px;padding:13px;background:var(--acid);font:700 18px/1.05 Arial,sans-serif;border:3px solid #000;box-shadow:7px 9px 0 rgba(0,0,0,.8);transition:transform .2s;user-select:none}.note:hover{transform:scale(1.2) rotate(15deg)!important;z-index:10}.n1{top:130px;left:8%;transform:rotate(-12deg)}.n2{top:190px;left:41%;background:var(--pink);transform:rotate(8deg)}.n3{top:100px;right:7%;background:var(--blue);transform:rotate(-6deg)}.n4{bottom:38px;left:23%;background:#000;color:#fff;transform:rotate(4deg)}.n5{bottom:50px;right:17%;transform:rotate(-13deg)}
-  .eye{position:fixed;z-index:60;width:62px;height:42px;border:4px solid #000;border-radius:50%;background:#fff;pointer-events:none;transform:translate(-50%,-50%) rotate(-8deg)}.eye:after{content:"";position:absolute;width:20px;height:20px;background:#000;border-radius:50%;left:var(--x,50%);top:var(--y,50%);transform:translate(-50%,-50%)}
-  .fly{position:fixed;pointer-events:none;z-index:70;font-size:44px;animation:float 2.2s ease-in-out infinite alternate}@keyframes float{to{transform:translate(35px,-55px) rotate(260deg)}}
-  .chaos{animation:chaos .17s infinite}@keyframes chaos{0%{filter:hue-rotate(0deg)}50%{transform:translate(5px,-4px) skewX(2deg)}100%{filter:hue-rotate(150deg);transform:translate(-6px,4px) skewX(-2deg)}}
-  .footer{margin-top:55px;font:700 14px Arial,sans-serif;letter-spacing:2px}.footer mark{background:var(--pink);padding:5px}
+:root{--bg:#2b0a4a;--pink:#ff2e93;--yel:#e6ff00;--teal:#00ffd0;--ink:#150524;--paper:#fff3d6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a0630;--paper:#ffe9b8}}
+:root[data-theme="dark"]{--bg:#1a0630;--paper:#ffe9b8}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--paper);font-family:"Permanent Marker","Comic Sans MS",cursive;overflow-x:hidden;
+background-image:radial-gradient(var(--pink) 1.5px,transparent 1.5px);background-size:28px 28px;cursor:crosshair}
+body.shake{animation:shake .15s infinite}
+body.inv{filter:invert(1) hue-rotate(180deg)}
+body.chaos main{animation:spin 6s linear infinite}
+body.chaos h1 span{animation-duration:.3s!important}
+@keyframes shake{0%{transform:translate(4px,-3px)}25%{transform:translate(-5px,2px)}50%{transform:translate(3px,5px)}75%{transform:translate(-4px,-4px)}100%{transform:translate(2px,3px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes wob{0%,100%{transform:rotate(var(--r)) translateY(0)}50%{transform:rotate(calc(var(--r)*-1)) translateY(-14px)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+h1{font-family:"Rubik Mono One",Impact,sans-serif;font-size:clamp(2.6rem,13vw,8rem);line-height:.95;margin:.3em 0;color:var(--yel);text-shadow:5px 5px 0 var(--pink),10px 10px 0 var(--ink);word-break:break-all}
+h1 span{display:inline-block;animation:wob 1.4s ease-in-out infinite}
+.sub{font-size:1.4rem;background:var(--pink);color:var(--ink);display:inline-block;padding:6px 14px;transform:rotate(-2deg);box-shadow:6px 6px 0 var(--ink)}
+.bar{overflow:hidden;white-space:nowrap;background:var(--yel);color:var(--ink);border-block:4px solid var(--ink);margin:24px -16px;font-family:"Rubik Mono One",Impact,sans-serif}
+.bar div{display:inline-block;width:max-content;animation:slide 14s linear infinite;padding:8px 0}
+section{background:var(--ink);border:4px solid var(--teal);padding:20px;margin:34px 0;box-shadow:10px 10px 0 var(--pink)}
+section:nth-of-type(even){transform:rotate(1.2deg);border-color:var(--yel)}
+section:nth-of-type(odd){transform:rotate(-1deg)}
+h2{font-family:"Rubik Mono One",Impact,sans-serif;font-size:1.5rem;color:var(--teal);margin:0 0 10px}
+p{font-size:1.2rem;line-height:1.5;margin:.5em 0}
+button{font:inherit;font-size:1.3rem;background:var(--teal);color:var(--ink);border:4px solid var(--ink);padding:10px 18px;box-shadow:5px 5px 0 var(--pink);cursor:pointer}
+button:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--pink)}
+button:focus-visible{outline:4px dashed var(--yel);outline-offset:4px}
+#oracle{min-height:3.6em;color:var(--yel);font-size:1.5rem;margin-top:14px}
+#runner{position:relative;height:140px;border:3px dashed var(--pink);margin-top:12px}
+#runner button{position:absolute;left:20px;top:40px;transition:left .12s,top .12s}
+#meter{height:34px;border:4px solid var(--paper);margin:12px 0;background:var(--ink)}
+#fill{height:100%;width:0;background:repeating-linear-gradient(45deg,var(--pink) 0 12px,var(--yel) 12px 24px)}
+#eyes{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.eye{width:64px;height:64px;border-radius:50%;background:#fff;border:4px solid var(--ink);position:relative}
+.eye i{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--ink);left:17px;top:17px}
+.cookie{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:420px;background:var(--yel);color:var(--ink);border:4px solid var(--ink);padding:12px;z-index:9;box-shadow:6px 6px 0 var(--pink);transform:rotate(1.5deg)}
+.cookie p{font-size:1rem;margin:0 0 8px}
+.cookie button{font-size:1rem;padding:6px 10px;margin-right:6px;background:var(--pink)}
+.pop{position:fixed;pointer-events:none;font-size:2.4rem;z-index:8;animation:pop 1s ease-out forwards}
+@keyframes pop{to{transform:translateY(-120px) rotate(var(--rr));opacity:0}}
+footer{text-align:center;font-size:1rem;opacity:.8}
+html{animation:hue 14s linear infinite}
+@keyframes hue{to{filter:hue-rotate(360deg)}}
+main{position:relative;z-index:1}
+h1,h2{filter:url(#melt)}
+section{animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{50%{scale:1.025}}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:6;background:radial-gradient(circle,transparent 40%,rgba(0,0,0,.7));animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
+.dr{position:fixed;left:0;top:0;z-index:0;opacity:.3;pointer-events:none;animation:drift linear infinite}
+@keyframes drift{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-25vh) rotate(720deg)}}
+.wh{position:fixed;z-index:7;pointer-events:none;color:var(--teal);font-size:1.4rem;opacity:0;animation:wh 3.5s ease-in-out forwards;mix-blend-mode:difference}
+@keyframes wh{50%{opacity:.95}100%{opacity:0;transform:scale(1.6) skewX(20deg)}}
+#snd{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:8px;z-index:10;font-size:1rem;padding:6px 10px;background:var(--yel)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="ticker"><span>⚠️ WELCOME TO THE DIGITAL ALLEYWAY ⚠️ NOTHING IS BROKEN (EVERYTHING IS) ⚠️ CLICK RESPONSIBLY ⚠️ WELCOME TO THE DIGITAL ALLEYWAY ⚠️ NOTHING IS BROKEN (EVERYTHING IS) ⚠️ CLICK RESPONSIBLY ⚠️ </span></div>
-<div class="eye" id="eye"></div>
-<main id="main">
-  <div class="stamp">CERTIFIED<br>BAD<br>IDEA</div>
-  <h1>TOUCH<br>GRASS<span class="tiny">(but make it hostile)</span></h1>
-  <div class="warning">THIS WEBSITE WAS FOUND IN A DUMPSTER BEHIND THE INTERNET. PLEASE DO NOT FEED IT AFTER MIDNIGHT. IT KNOWS WHEN YOU ARE SCROLLING.</div>
-  <div class="controls"><button class="btn" onclick="release('🦝')">RELEASE RACCOON</button><button class="btn" onclick="release('🧌')">SUMMON GREMLIN</button><button class="btn" id="panic" onclick="panicMode()">DO NOT PRESS</button><button class="btn" onclick="document.body.style.transform='rotate('+((Math.random()-.5)*8)+'deg)'">TILT REALITY</button></div>
-  <section class="wall"><h2>THE WALL OF QUESTIONABLE THOUGHTS</h2><div class="note n1">if pigeons had jobs would they pay taxes</div><div class="note n2">my brain has 47 tabs open and all are playing elevator music</div><div class="note n3">you are legally required to have a weird little dance</div><div class="note n4">404: dignity not found</div><div class="note n5">I put the “pro” in procrastination</div></section>
-  <p class="footer">MADE WITH <mark>ZERO SUPERVISION</mark> AND AN ALARMING AMOUNT OF LIME GREEN.</p>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="melt"><feTurbulence id="ft" type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="2"/><feDisplacementMap in="SourceGraphic" scale="24"/></filter></svg>
+<button id="snd">🔊 sound: click anywhere</button>
+<div class="cookie" id="ck"><p>We use cookies. By cookies we mean one (1) raccoon. He is inside your computer now.</p><button id="a">Accept raccoon</button><button id="b">Accept two raccoons</button></div>
+<main>
+<div class="sub">welcome. please do not feed the website.</div>
+<h1 id="t">GREMLIN.EXE</h1>
+<div class="bar"><div id="mq"></div></div>
+
+<section>
+<h2>The Pigeon Oracle</h2>
+<p>He has seen things behind the vending machine. Ask nothing. Press the button.</p>
+<button id="orc">Consult pigeon</button>
+<div id="oracle">…</div>
+</section>
+
+<section>
+<h2>Scream Meter</h2>
+<p>Hold the button. Release when you feel something. Screams so far: <b id="sc">0</b></p>
+<div id="meter"><div id="fill"></div></div>
+<button id="scr">HOLD TO SCREAM</button>
+</section>
+
+<section>
+<h2>Catch the Button</h2>
+<p>It says “free money.” It is lying. Catch it anyway.</p>
+<div id="runner"><button id="run">free money</button></div>
+<p id="rmsg"></p>
+</section>
+
+<section>
+<h2>They Are Watching</h2>
+<p>Move your cursor. They love it. They love you.</p>
+<div id="eyes"></div>
+</section>
+
+<section>
+<h2>Do Not Press</h2>
+<p>Seriously. There is a sign. The sign is this sentence.</p>
+<button id="dnp">DO NOT PRESS</button>
+</section>
+
+<footer>© whenever. no refunds. the gremlin has your sandwich.</footer>
 </main>
 <script>
-const eye=document.getElementById('eye');
-let audioCtx;
-function getAudio(){return audioCtx||(audioCtx=new (window.AudioContext||window.webkitAudioContext)())}
-function beep(freq,time,duration,type='square',volume=.08){const ctx=getAudio(),o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,time);g.gain.setValueAtTime(volume,time);g.gain.exponentialRampToValueAtTime(.001,time+duration);o.connect(g).connect(ctx.destination);o.start(time);o.stop(time+duration)}
-function buttonNoise(kind){const ctx=getAudio(),t=ctx.currentTime;if(kind==='raccoon'){[110,146,196,293,440].forEach((n,i)=>beep(n,t+i*.07,.16,i%2?'sawtooth':'square',.07))}else if(kind==='gremlin'){[700,220,950,330,1200,80].forEach((n,i)=>beep(n,t+i*.055,.11,'sawtooth',.055))}else if(kind==='panic'){for(let i=0;i<18;i++)beep(90+Math.random()*1500,t+i*.035,.12,i%2?'square':'sawtooth',.07)}else{[330,660,990].forEach((n,i)=>beep(n,t+i*.08,.18,'triangle',.08))}}
-document.addEventListener('mousemove',e=>{eye.style.left=e.clientX+'px';eye.style.top=e.clientY+'px';const r=eye.getBoundingClientRect(),x=Math.max(25,Math.min(75,50+(e.clientX-r.left-31)/3)),y=Math.max(25,Math.min(75,50+(e.clientY-r.top-21)/3));eye.style.setProperty('--x',x+'%');eye.style.setProperty('--y',y+'%')});
-function release(emoji){buttonNoise(emoji==='🦝'?'raccoon':'gremlin');for(let i=0;i<8;i++){let x=document.createElement('div');x.className='fly';x.textContent=emoji;x.style.left=Math.random()*90+'vw';x.style.top=(30+Math.random()*60)+'vh';x.style.animationDelay=Math.random()*-2+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),5000)}}
-function panicMode(){buttonNoise('panic');document.getElementById('main').classList.toggle('chaos');release('💥');release('🦷');document.title='AAAAAAAAAAAA';}
-document.querySelectorAll('.btn').forEach(btn=>btn.addEventListener('click',()=>{if(!btn.id)buttonNoise('tilt')}));
+(function(){
+var $=function(i){return document.getElementById(i)};
+var rnd=function(a){return a[Math.floor(Math.random()*a.length)]};
+// ---- audio: all synthesized, no files ----
+var AC=null,master=null,muted=false,so=null,sg=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.5;master.connect(AC.destination);drone()}catch(e){return null}}if(AC.state==="suspended")AC.resume();return AC}
+function tone(f,d,type,v,slide){if(!ac()||muted)return;var o=AC.createOscillator(),g=AC.createGain(),t0=AC.currentTime;o.type=type||"square";o.frequency.setValueAtTime(f,t0);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(20,slide),t0+d);g.gain.setValueAtTime(v||.15,t0);g.gain.exponentialRampToValueAtTime(.001,t0+d);o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d)}
+function noise(d,v){if(!ac()||muted)return;var n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0);for(var i=0;i<n;i++)a[i]=Math.random()*2-1;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=b;g.gain.setValueAtTime(v||.2,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);s.connect(g);g.connect(master);s.start()}
+function drone(){var f=AC.createBiquadFilter(),g=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();f.type="lowpass";f.frequency.value=260;g.gain.value=.09;[55,58.3,82.4].forEach(function(hz){var o=AC.createOscillator();o.type="sawtooth";o.frequency.value=hz;o.connect(f);o.start()});l.frequency.value=.13;lg.gain.value=180;l.connect(lg);lg.connect(f.frequency);l.start();f.connect(g);g.connect(master);
+setInterval(function(){if(Math.random()<.7)tone(200+Math.random()*1600,.2+Math.random()*.8,rnd(["sine","triangle","square"]),.07,50+Math.random()*2000)},2200)}
+function coo(){tone(380,.2,"triangle",.25,220);setTimeout(function(){tone(340,.2,"triangle",.25,200)},210);setTimeout(function(){tone(300,.4,"triangle",.25,120)},420)}
+function boing(){tone(150,.35,"sine",.3,900);noise(.05,.1)}
+function chaosSfx(){tone(1200,1,"sawtooth",.2,30);noise(.6,.3)}
+function sOn(){if(!ac()||muted||so)return;so=AC.createOscillator();sg=AC.createGain();so.type="sawtooth";so.frequency.value=300;sg.gain.value=.12;so.connect(sg);sg.connect(master);so.start()}
+function sSet(l){if(so)so.frequency.setTargetAtTime(300+l*14+Math.random()*60,AC.currentTime,.02)}
+function sOff(){if(so){var o=so;sg.gain.setTargetAtTime(0,AC.currentTime,.05);so=null;setTimeout(function(){o.stop()},250)}}
+$("snd").onclick=function(e){e.stopPropagation();ac();muted=!muted;if(master)master.gain.value=muted?0:.5;$("snd").textContent=muted?"🔇 silence (he waits)":"🔊 screaming"};
+// title letters
+var t=$("t"),txt=t.textContent;t.textContent="";
+txt.split("").forEach(function(c,i){var s=document.createElement("span");s.textContent=c;s.style.setProperty("--r",(Math.random()*16-8)+"deg");s.style.animationDelay=(-Math.random()*1.4)+"s";t.appendChild(s)});
+// marquee
+var m="🦝 NOW WITH 40% MORE TEETH 🦝 CHEESE IS A SOCIAL CONSTRUCT 🦝 THE WIFI IS HAUNTED 🦝 ";
+$("mq").textContent=m.repeat(8);
+// cookies
+$("a").onclick=function(){$("ck").remove();alert("He is thrilled.")};
+$("b").onclick=function(){$("ck").remove();alert("There are now two. They have formed a union.")};
+// oracle
+var P=["You will find a shoe. Do not ask whose.","The moon owes you $14. Collect it.","Bread is a doorway. Mind the crust.","Someone is thinking about you. It’s me. Stop.","Eat the chip off the ground. Become powerful.","Your enemies are just ducks in suits.","Tuesday is lying to everyone.","Cough twice at a stranger. Fate will follow.","The soup knows what you did.","Build a small hat for a large problem."];
+$("orc").onclick=function(){coo();$("oracle").textContent="🕊️ "+rnd(P);pop(innerWidth/2,innerHeight/2)};
+// scream
+var n=0,h=null,lvl=0,sc=$("scr");
+function up(){sSet(Math.min(100,lvl+2.5));n++;lvl=Math.min(100,lvl+2.5);$("sc").textContent=n;$("fill").style.width=lvl+"%";
+document.body.classList.toggle("shake",lvl>40);document.body.classList.toggle("inv",lvl>=100);
+if(lvl>=100){$("fill").style.width="100%";t.style.color="var(--teal)"}}
+function start(e){e.preventDefault();if(h)return;sOn();h=setInterval(up,50)}
+function stop(){sOff();clearInterval(h);h=null;document.body.classList.remove("shake");setTimeout(function(){lvl=0;$("fill").style.width="0";document.body.classList.remove("inv");t.style.color=""},900)}
+["mousedown","touchstart"].forEach(function(v){sc.addEventListener(v,start)});
+["mouseup","mouseleave","touchend","touchcancel"].forEach(function(v){sc.addEventListener(v,stop)});
+// runaway button
+var r=$("run"),box=$("runner"),dodges=0,L=["nope","too slow","lol","skill issue","I have a family","no.","💨"];
+function flee(){var w=box.clientWidth-r.offsetWidth-8,hh=box.clientHeight-r.offsetHeight-8;
+r.style.left=Math.max(0,Math.random()*w)+"px";r.style.top=Math.max(0,Math.random()*hh)+"px";dodges++;boing();
+$("rmsg").textContent="Dodges: "+dodges+". "+rnd(L);r.textContent=rnd(["free money","free money?","FREE.","money"])}
+r.addEventListener("mouseenter",flee);r.addEventListener("touchstart",function(e){e.preventDefault();flee()});
+r.onclick=function(){$("rmsg").textContent="You caught it. There was never any money. There is only the chase."};
+// eyes
+var E=$("eyes");for(var i=0;i<10;i++){var e=document.createElement("div");e.className="eye";e.innerHTML="<i></i>";E.appendChild(e)}
+function look(x,y){E.querySelectorAll(".eye").forEach(function(el){var b=el.getBoundingClientRect(),cx=b.left+32,cy=b.top+32,a=Math.atan2(y-cy,x-cx);
+var p=el.firstChild;p.style.left=(17+Math.cos(a)*14)+"px";p.style.top=(17+Math.sin(a)*14)+"px"})}
+document.addEventListener("mousemove",function(e){look(e.clientX,e.clientY)});
+document.addEventListener("touchmove",function(e){look(e.touches[0].clientX,e.touches[0].clientY)});
+// chaos
+$("dnp").onclick=function(){chaosSfx();document.body.classList.toggle("chaos");$("dnp").textContent=document.body.classList.contains("chaos")?"WHY DID YOU":"DO NOT PRESS"};
+// click emoji
+function pop(x,y){var s=document.createElement("div");s.className="pop";s.textContent=rnd(["🦝","🕊️","🧀","👁️","🔥","🦷","🥫","🐀","💀"]);
+s.style.left=x+"px";s.style.top=y+"px";s.style.setProperty("--rr",(Math.random()*180-90)+"deg");document.body.appendChild(s);setTimeout(function(){s.remove()},1000)}
+document.addEventListener("click",function(e){pop(e.clientX,e.clientY);tone(200+Math.random()*800,.12,rnd(["square","sawtooth","triangle"]),.12,50+Math.random()*1500)});
+// ---- fever dream ----
+var still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(!still){
+var ft=$("ft"),ph=0;(function f(){ph+=.012;ft.setAttribute("baseFrequency",(.008+Math.sin(ph)*.006)+" "+(.02+Math.cos(ph*1.3)*.012));requestAnimationFrame(f)})();
+for(var k=0;k<16;k++){var d=document.createElement("div");d.className="dr";d.textContent=rnd(["👁️","🦷","🕊️","🦝","🧀","🫠","🥫"]);d.style.left=Math.random()*95+"vw";d.style.fontSize=(2+Math.random()*6)+"rem";d.style.animationDuration=(8+Math.random()*16)+"s";d.style.animationDelay=(-Math.random()*20)+"s";document.body.appendChild(d)}
+var W=["he is behind the fridge","you were here before","the soup is warm","blink","it’s inside the wifi","you left the stove on in 2009","do not look at the pigeon","the carpet is breathing","you are the website now","mmmmmm"];
+setInterval(function(){var w=document.createElement("div");w.className="wh";w.textContent=rnd(W);w.style.left=Math.random()*60+"vw";w.style.top=Math.random()*85+"vh";document.body.appendChild(w);setTimeout(function(){w.remove()},3600)},2600);
+(function glitch(){setTimeout(function(){document.body.classList.add("inv");noise(.12,.25);setTimeout(function(){if(!so)document.body.classList.remove("inv")},110);glitch()},4000+Math.random()*6000)})();
+}
+})();
 </script>
 </body>
 </html>
